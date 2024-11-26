@@ -21,13 +21,19 @@ class Superlog implements LoggerContract
     }
 
     /**
-     * Log a message based on its level.
+     * Logs a message based on its specified level.
      *
-     * Routes the log data to the appropriate logging method based on the level
-     * specified in the SuperlogData object.
+     * This method routes the log data to the appropriate logging method
+     * according to the level defined in the SuperlogData object. Before and
+     * after the logging process, it notifies registered observers about the
+     * logging lifecycle through `logging` and `logged` events, respectively.
      */
     public function log(SuperlogData $logData): void
     {
+        foreach (SuperlogSettings::getObservers() as $observer) {
+            $observer->logging($logData);
+        }
+
         match ($logData->level) {
             'critical' => SuperlogSettings::getNewLogger()->critical((string) $logData->toJson()),
             'error' => SuperlogSettings::getNewLogger()->error((string) $logData->toJson()),
@@ -35,6 +41,10 @@ class Superlog implements LoggerContract
             'info' => SuperlogSettings::getNewLogger()->info((string) $logData->toJson()),
             'debug' => SuperlogSettings::getNewLogger()->debug((string) $logData->toJson()),
         };
+
+        foreach (SuperlogSettings::getObservers() as $observer) {
+            $observer->logged($logData);
+        }
     }
 
     /**

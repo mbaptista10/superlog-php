@@ -1,5 +1,7 @@
 <?php
 
+use Superlog\Contracts\LoggerObserverContract;
+use Superlog\Data\SuperlogData;
 use Superlog\Superlog;
 use Superlog\SuperlogSettings;
 
@@ -28,7 +30,7 @@ describe('validate', function (): void {
         SuperlogSettings::setApplication('application');
         SuperlogSettings::setEnvironment('environment');
 
-        expect(fn() => Superlog::critical('foo'))->toThrow(RuntimeException::class, 'Channel not set');
+        expect(fn () => Superlog::critical('foo'))->toThrow(RuntimeException::class, 'Channel not set');
     });
 
     it('should throw exception when application is empty with critical level', function (): void {
@@ -36,7 +38,7 @@ describe('validate', function (): void {
         SuperlogSettings::setApplication('');
         SuperlogSettings::setEnvironment('environment');
 
-        expect(fn() => Superlog::critical('foo'))->toThrow(RuntimeException::class, 'Application not set');
+        expect(fn () => Superlog::critical('foo'))->toThrow(RuntimeException::class, 'Application not set');
     });
 
     it('should throw exception when environment is empty with critical level', function (): void {
@@ -44,7 +46,7 @@ describe('validate', function (): void {
         SuperlogSettings::setApplication('application');
         SuperlogSettings::setEnvironment('');
 
-        expect(fn() => Superlog::critical('foo'))->toThrow(RuntimeException::class, 'Environment not set');
+        expect(fn () => Superlog::critical('foo'))->toThrow(RuntimeException::class, 'Environment not set');
     });
 
     it('should throw exception when channel is empty with error level', function (): void {
@@ -52,7 +54,7 @@ describe('validate', function (): void {
         SuperlogSettings::setApplication('application');
         SuperlogSettings::setEnvironment('environment');
 
-        expect(fn() => Superlog::error('foo'))->toThrow(RuntimeException::class, 'Channel not set');
+        expect(fn () => Superlog::error('foo'))->toThrow(RuntimeException::class, 'Channel not set');
     });
 
     it('should throw exception when application is empty with error level', function (): void {
@@ -60,7 +62,7 @@ describe('validate', function (): void {
         SuperlogSettings::setApplication('');
         SuperlogSettings::setEnvironment('environment');
 
-        expect(fn() => Superlog::error('foo'))->toThrow(RuntimeException::class, 'Application not set');
+        expect(fn () => Superlog::error('foo'))->toThrow(RuntimeException::class, 'Application not set');
     });
 
     it('should throw exception when environment is empty with error level', function (): void {
@@ -68,7 +70,7 @@ describe('validate', function (): void {
         SuperlogSettings::setApplication('application');
         SuperlogSettings::setEnvironment('');
 
-        expect(fn() => Superlog::error('foo'))->toThrow(RuntimeException::class, 'Environment not set');
+        expect(fn () => Superlog::error('foo'))->toThrow(RuntimeException::class, 'Environment not set');
     });
 
     it('should throw exception when channel is empty with warning level', function (): void {
@@ -76,7 +78,7 @@ describe('validate', function (): void {
         SuperlogSettings::setApplication('application');
         SuperlogSettings::setEnvironment('environment');
 
-        expect(fn() => Superlog::warning('foo'))->toThrow(RuntimeException::class, 'Channel not set');
+        expect(fn () => Superlog::warning('foo'))->toThrow(RuntimeException::class, 'Channel not set');
     });
 
     it('should throw exception when application is empty with warning level', function (): void {
@@ -84,7 +86,7 @@ describe('validate', function (): void {
         SuperlogSettings::setApplication('');
         SuperlogSettings::setEnvironment('environment');
 
-        expect(fn() => Superlog::warning('foo'))->toThrow(RuntimeException::class, 'Application not set');
+        expect(fn () => Superlog::warning('foo'))->toThrow(RuntimeException::class, 'Application not set');
     });
 
     it('should throw exception when environment is empty with warning level', function (): void {
@@ -92,7 +94,7 @@ describe('validate', function (): void {
         SuperlogSettings::setApplication('application');
         SuperlogSettings::setEnvironment('');
 
-        expect(fn() => Superlog::warning('foo'))->toThrow(RuntimeException::class, 'Environment not set');
+        expect(fn () => Superlog::warning('foo'))->toThrow(RuntimeException::class, 'Environment not set');
     });
 
     it('should throw exception when channel is empty with info level', function (): void {
@@ -100,7 +102,7 @@ describe('validate', function (): void {
         SuperlogSettings::setApplication('application');
         SuperlogSettings::setEnvironment('environment');
 
-        expect(fn() => Superlog::info('foo'))->toThrow(RuntimeException::class, 'Channel not set');
+        expect(fn () => Superlog::info('foo'))->toThrow(RuntimeException::class, 'Channel not set');
     });
 
     it('should throw exception when application is empty with info level', function (): void {
@@ -108,7 +110,7 @@ describe('validate', function (): void {
         SuperlogSettings::setApplication('');
         SuperlogSettings::setEnvironment('environment');
 
-        expect(fn() => Superlog::info('foo'))->toThrow(RuntimeException::class, 'Application not set');
+        expect(fn () => Superlog::info('foo'))->toThrow(RuntimeException::class, 'Application not set');
     });
 
     it('should throw exception when environment is empty with info level', function (): void {
@@ -116,7 +118,7 @@ describe('validate', function (): void {
         SuperlogSettings::setApplication('application');
         SuperlogSettings::setEnvironment('');
 
-        expect(fn() => Superlog::info('foo'))->toThrow(RuntimeException::class, 'Environment not set');
+        expect(fn () => Superlog::info('foo'))->toThrow(RuntimeException::class, 'Environment not set');
     });
 
     it('should throw exception when channel is empty with debug level', function (): void {
@@ -124,7 +126,7 @@ describe('validate', function (): void {
         SuperlogSettings::setApplication('application');
         SuperlogSettings::setEnvironment('environment');
 
-        expect(fn() => Superlog::debug('foo'))->toThrow(RuntimeException::class, 'Channel not set');
+        expect(fn () => Superlog::debug('foo'))->toThrow(RuntimeException::class, 'Channel not set');
     });
 
     it('should throw exception when application is empty with debug level', function (): void {
@@ -132,7 +134,7 @@ describe('validate', function (): void {
         SuperlogSettings::setApplication('');
         SuperlogSettings::setEnvironment('environment');
 
-        expect(fn() => Superlog::debug('foo'))->toThrow(RuntimeException::class, 'Application not set');
+        expect(fn () => Superlog::debug('foo'))->toThrow(RuntimeException::class, 'Application not set');
     });
 
     it('should throw exception when environment is empty with debug level', function (): void {
@@ -140,7 +142,7 @@ describe('validate', function (): void {
         SuperlogSettings::setApplication('application');
         SuperlogSettings::setEnvironment('');
 
-        expect(fn() => Superlog::debug('foo'))->toThrow(RuntimeException::class, 'Environment not set');
+        expect(fn () => Superlog::debug('foo'))->toThrow(RuntimeException::class, 'Environment not set');
     });
 
     it('not throw exception when channel, application and environment is not empty with critical level', function (): void {
@@ -148,7 +150,7 @@ describe('validate', function (): void {
         SuperlogSettings::setApplication('application');
         SuperlogSettings::setEnvironment('environment');
 
-        expect(fn() => Superlog::critical('foo'))->not->toThrow(RuntimeException::class);
+        expect(fn () => Superlog::critical('foo'))->not->toThrow(RuntimeException::class);
     });
 
     it('not throw exception when channel, application and environment is not empty with error level', function (): void {
@@ -156,7 +158,7 @@ describe('validate', function (): void {
         SuperlogSettings::setApplication('application');
         SuperlogSettings::setEnvironment('environment');
 
-        expect(fn() => Superlog::error('foo'))->not->toThrow(RuntimeException::class);
+        expect(fn () => Superlog::error('foo'))->not->toThrow(RuntimeException::class);
     });
 
     it('not throw exception when channel, application and environment is not empty with warning level', function (): void {
@@ -164,7 +166,7 @@ describe('validate', function (): void {
         SuperlogSettings::setApplication('application');
         SuperlogSettings::setEnvironment('environment');
 
-        expect(fn() => Superlog::warning('foo'))->not->toThrow(RuntimeException::class);
+        expect(fn () => Superlog::warning('foo'))->not->toThrow(RuntimeException::class);
     });
 
     it('not throw exception when channel, application and environment is not empty with info level', function (): void {
@@ -172,7 +174,7 @@ describe('validate', function (): void {
         SuperlogSettings::setApplication('application');
         SuperlogSettings::setEnvironment('environment');
 
-        expect(fn() => Superlog::info('foo'))->not->toThrow(RuntimeException::class);
+        expect(fn () => Superlog::info('foo'))->not->toThrow(RuntimeException::class);
     });
 
     it('not throw exception when channel, application and environment is not empty with debug level', function (): void {
@@ -180,41 +182,41 @@ describe('validate', function (): void {
         SuperlogSettings::setApplication('application');
         SuperlogSettings::setEnvironment('environment');
 
-        expect(fn() => Superlog::debug('foo'))->not->toThrow(RuntimeException::class);
+        expect(fn () => Superlog::debug('foo'))->not->toThrow(RuntimeException::class);
     });
 });
 
 describe('rfc', function () use ($getLogOutput): void {
     it('should be rfc compliant with level critical', function () use ($getLogOutput): void {
-        $output = $getLogOutput(fn() => Superlog::critical('foo'));
+        $output = $getLogOutput(fn () => Superlog::critical('foo'));
         $jsonOutput = $output['json_output'];
 
         expect($jsonOutput)->toHaveKeys(['timestamp', 'level', 'channel', 'application', 'environment', 'message', 'log_id', 'tags']);
     });
 
     it('should be rfc compliant with level error', function () use ($getLogOutput): void {
-        $output = $getLogOutput(fn() => Superlog::error('foo'));
+        $output = $getLogOutput(fn () => Superlog::error('foo'));
         $jsonOutput = $output['json_output'];
 
         expect($jsonOutput)->toHaveKeys(['timestamp', 'level', 'channel', 'application', 'environment', 'message', 'log_id', 'tags']);
     });
 
     it('should be rfc compliant with level warning', function () use ($getLogOutput): void {
-        $output = $getLogOutput(fn() => Superlog::warning('foo'));
+        $output = $getLogOutput(fn () => Superlog::warning('foo'));
         $jsonOutput = $output['json_output'];
 
         expect($jsonOutput)->toHaveKeys(['timestamp', 'level', 'channel', 'application', 'environment', 'message', 'log_id', 'tags']);
     });
 
     it('should be rfc compliant with level info', function () use ($getLogOutput): void {
-        $output = $getLogOutput(fn() => Superlog::info('foo'));
+        $output = $getLogOutput(fn () => Superlog::info('foo'));
         $jsonOutput = $output['json_output'];
 
         expect($jsonOutput)->toHaveKeys(['timestamp', 'level', 'channel', 'application', 'environment', 'message', 'log_id', 'tags']);
     });
 
     it('should be rfc compliant with level debug', function () use ($getLogOutput): void {
-        $output = $getLogOutput(fn() => Superlog::debug('foo'));
+        $output = $getLogOutput(fn () => Superlog::debug('foo'));
         $jsonOutput = $output['json_output'];
 
         expect($jsonOutput)->toHaveKeys(['timestamp', 'level', 'channel', 'application', 'environment', 'message', 'log_id', 'tags']);
@@ -223,31 +225,31 @@ describe('rfc', function () use ($getLogOutput): void {
 
 describe('log level', function () use ($getLogOutput): void {
     it('logs with critical level', function () use ($getLogOutput): void {
-        $output = $getLogOutput(fn() => Superlog::critical('foo'));
+        $output = $getLogOutput(fn () => Superlog::critical('foo'));
 
         expect($output['json_output']['level'])->toBe('critical');
     });
 
     it('logs with error level', function () use ($getLogOutput): void {
-        $output = $getLogOutput(fn() => Superlog::error('foo'));
+        $output = $getLogOutput(fn () => Superlog::error('foo'));
 
         expect($output['json_output']['level'])->toBe('error');
     });
 
     it('logs with warning level', function () use ($getLogOutput): void {
-        $output = $getLogOutput(fn() => Superlog::warning('foo'));
+        $output = $getLogOutput(fn () => Superlog::warning('foo'));
 
         expect($output['json_output']['level'])->toBe('warning');
     });
 
     it('logs with info level', function () use ($getLogOutput): void {
-        $output = $getLogOutput(fn() => Superlog::info('foo'));
+        $output = $getLogOutput(fn () => Superlog::info('foo'));
 
         expect($output['json_output']['level'])->toBe('info');
     });
 
     it('logs with debug level', function () use ($getLogOutput): void {
-        $output = $getLogOutput(fn() => Superlog::debug('foo'));
+        $output = $getLogOutput(fn () => Superlog::debug('foo'));
 
         expect($output['json_output']['level'])->toBe('debug');
     });
@@ -255,54 +257,54 @@ describe('log level', function () use ($getLogOutput): void {
 
 describe('log id', function () use ($getLogOutput): void {
     it('logs with critical level should have a log id', function () use ($getLogOutput): void {
-        $output = $getLogOutput(fn() => Superlog::critical('foo'));
+        $output = $getLogOutput(fn () => Superlog::critical('foo'));
         $jsonOutput = $output['json_output'];
         $tags = $jsonOutput['tags'];
 
         expect($jsonOutput['log_id'])->toBeUuid();
-        expect($tags)->toContain('log_id:' . $jsonOutput['log_id']);
+        expect($tags)->toContain('log_id:'.$jsonOutput['log_id']);
     });
 
     it('logs with error level should have a log id', function () use ($getLogOutput): void {
-        $output = $getLogOutput(fn() => Superlog::error('foo'));
+        $output = $getLogOutput(fn () => Superlog::error('foo'));
         $jsonOutput = $output['json_output'];
         $tags = $jsonOutput['tags'];
 
         expect($jsonOutput['log_id'])->toBeUuid();
-        expect($tags)->toContain('log_id:' . $jsonOutput['log_id']);
+        expect($tags)->toContain('log_id:'.$jsonOutput['log_id']);
     });
 
     it('logs with warning level should have a log id', function () use ($getLogOutput): void {
-        $output = $getLogOutput(fn() => Superlog::warning('foo'));
+        $output = $getLogOutput(fn () => Superlog::warning('foo'));
         $jsonOutput = $output['json_output'];
         $tags = $jsonOutput['tags'];
 
         expect($jsonOutput['log_id'])->toBeUuid();
-        expect($tags)->toContain('log_id:' . $jsonOutput['log_id']);
+        expect($tags)->toContain('log_id:'.$jsonOutput['log_id']);
     });
 
     it('logs with info level should have a log id', function () use ($getLogOutput): void {
-        $output = $getLogOutput(fn() => Superlog::info('foo'));
+        $output = $getLogOutput(fn () => Superlog::info('foo'));
         $jsonOutput = $output['json_output'];
         $tags = $jsonOutput['tags'];
 
         expect($jsonOutput['log_id'])->toBeUuid();
-        expect($tags)->toContain('log_id:' . $jsonOutput['log_id']);
+        expect($tags)->toContain('log_id:'.$jsonOutput['log_id']);
     });
 
     it('logs with debug level should have a log id', function () use ($getLogOutput): void {
-        $output = $getLogOutput(fn() => Superlog::debug('foo'));
+        $output = $getLogOutput(fn () => Superlog::debug('foo'));
         $jsonOutput = $output['json_output'];
         $tags = $jsonOutput['tags'];
 
         expect($jsonOutput['log_id'])->toBeUuid();
-        expect($tags)->toContain('log_id:' . $jsonOutput['log_id']);
+        expect($tags)->toContain('log_id:'.$jsonOutput['log_id']);
     });
 });
 
 describe('log message', function () use ($getLogOutput): void {
     it('logs with critical level should have a message in description key', function () use ($getLogOutput): void {
-        $output = $getLogOutput(fn() => Superlog::critical('foo'));
+        $output = $getLogOutput(fn () => Superlog::critical('foo'));
         $jsonOutput = $output['json_output'];
         $message = $jsonOutput['message'];
 
@@ -310,7 +312,7 @@ describe('log message', function () use ($getLogOutput): void {
     });
 
     it('logs with error level should have a message in description key', function () use ($getLogOutput): void {
-        $output = $getLogOutput(fn() => Superlog::error('foo'));
+        $output = $getLogOutput(fn () => Superlog::error('foo'));
         $jsonOutput = $output['json_output'];
         $message = $jsonOutput['message'];
 
@@ -318,7 +320,7 @@ describe('log message', function () use ($getLogOutput): void {
     });
 
     it('logs with warning level should have a message in description key', function () use ($getLogOutput): void {
-        $output = $getLogOutput(fn() => Superlog::warning('foo'));
+        $output = $getLogOutput(fn () => Superlog::warning('foo'));
         $jsonOutput = $output['json_output'];
         $message = $jsonOutput['message'];
 
@@ -326,7 +328,7 @@ describe('log message', function () use ($getLogOutput): void {
     });
 
     it('logs with info level should have a message in description key', function () use ($getLogOutput): void {
-        $output = $getLogOutput(fn() => Superlog::info('foo'));
+        $output = $getLogOutput(fn () => Superlog::info('foo'));
         $jsonOutput = $output['json_output'];
         $message = $jsonOutput['message'];
 
@@ -334,7 +336,7 @@ describe('log message', function () use ($getLogOutput): void {
     });
 
     it('logs with debug level should have a message in description key', function () use ($getLogOutput): void {
-        $output = $getLogOutput(fn() => Superlog::debug('foo'));
+        $output = $getLogOutput(fn () => Superlog::debug('foo'));
         $jsonOutput = $output['json_output'];
         $message = $jsonOutput['message'];
 
@@ -344,7 +346,7 @@ describe('log message', function () use ($getLogOutput): void {
 
 describe('log tags', function () use ($getLogOutput): void {
     it('logs with critical level should have a log id', function () use ($getLogOutput): void {
-        $output = $getLogOutput(fn() => Superlog::critical('foo', ['foo', 'bar']));
+        $output = $getLogOutput(fn () => Superlog::critical('foo', ['foo', 'bar']));
         $jsonOutput = $output['json_output'];
         $tags = $jsonOutput['tags'];
 
@@ -352,7 +354,7 @@ describe('log tags', function () use ($getLogOutput): void {
     });
 
     it('logs with error level should have a log id', function () use ($getLogOutput): void {
-        $output = $getLogOutput(fn() => Superlog::error('foo', ['foo', 'bar']));
+        $output = $getLogOutput(fn () => Superlog::error('foo', ['foo', 'bar']));
         $jsonOutput = $output['json_output'];
         $tags = $jsonOutput['tags'];
 
@@ -360,7 +362,7 @@ describe('log tags', function () use ($getLogOutput): void {
     });
 
     it('logs with warning level should have a log id', function () use ($getLogOutput): void {
-        $output = $getLogOutput(fn() => Superlog::warning('foo', ['foo', 'bar']));
+        $output = $getLogOutput(fn () => Superlog::warning('foo', ['foo', 'bar']));
         $jsonOutput = $output['json_output'];
         $tags = $jsonOutput['tags'];
 
@@ -368,7 +370,7 @@ describe('log tags', function () use ($getLogOutput): void {
     });
 
     it('logs with info level should have a log id', function () use ($getLogOutput): void {
-        $output = $getLogOutput(fn() => Superlog::info('foo', ['foo', 'bar']));
+        $output = $getLogOutput(fn () => Superlog::info('foo', ['foo', 'bar']));
         $jsonOutput = $output['json_output'];
         $tags = $jsonOutput['tags'];
 
@@ -376,7 +378,7 @@ describe('log tags', function () use ($getLogOutput): void {
     });
 
     it('logs with debug level should have a log id', function () use ($getLogOutput): void {
-        $output = $getLogOutput(fn() => Superlog::debug('foo', ['foo', 'bar']));
+        $output = $getLogOutput(fn () => Superlog::debug('foo', ['foo', 'bar']));
         $jsonOutput = $output['json_output'];
         $tags = $jsonOutput['tags'];
 
@@ -387,11 +389,11 @@ describe('log tags', function () use ($getLogOutput): void {
 describe('log level filter', function () use ($getLogOutput): void {
     it('should only show critical logs when the level is critical', function () use ($getLogOutput): void {
         SuperlogSettings::setLogLevel('critical');
-        $outputCritical = $getLogOutput(fn() => Superlog::critical('foo'));
-        $outputError = $getLogOutput(fn() => Superlog::error('foo'));
-        $outputWarning = $getLogOutput(fn() => Superlog::warning('foo'));
-        $outputInfo = $getLogOutput(fn() => Superlog::info('foo'));
-        $outputDebug = $getLogOutput(fn() => Superlog::debug('foo'));
+        $outputCritical = $getLogOutput(fn () => Superlog::critical('foo'));
+        $outputError = $getLogOutput(fn () => Superlog::error('foo'));
+        $outputWarning = $getLogOutput(fn () => Superlog::warning('foo'));
+        $outputInfo = $getLogOutput(fn () => Superlog::info('foo'));
+        $outputDebug = $getLogOutput(fn () => Superlog::debug('foo'));
 
         expect($outputCritical['json_output'])->not->toBeNull();
         expect($outputCritical['string_output'])->not->toBeNull();
@@ -407,11 +409,11 @@ describe('log level filter', function () use ($getLogOutput): void {
 
     it('should only show critical and error logs when the level is error', function () use ($getLogOutput): void {
         SuperlogSettings::setLogLevel('error');
-        $outputCritical = $getLogOutput(fn() => Superlog::critical('foo'));
-        $outputError = $getLogOutput(fn() => Superlog::error('foo'));
-        $outputWarning = $getLogOutput(fn() => Superlog::warning('foo'));
-        $outputInfo = $getLogOutput(fn() => Superlog::info('foo'));
-        $outputDebug = $getLogOutput(fn() => Superlog::debug('foo'));
+        $outputCritical = $getLogOutput(fn () => Superlog::critical('foo'));
+        $outputError = $getLogOutput(fn () => Superlog::error('foo'));
+        $outputWarning = $getLogOutput(fn () => Superlog::warning('foo'));
+        $outputInfo = $getLogOutput(fn () => Superlog::info('foo'));
+        $outputDebug = $getLogOutput(fn () => Superlog::debug('foo'));
 
         expect($outputCritical['json_output'])->not->toBeNull();
         expect($outputCritical['string_output'])->not->toBeNull();
@@ -427,11 +429,11 @@ describe('log level filter', function () use ($getLogOutput): void {
 
     it('should only show critical, error and warning logs when the level is warning', function () use ($getLogOutput): void {
         SuperlogSettings::setLogLevel('warning');
-        $outputCritical = $getLogOutput(fn() => Superlog::critical('foo'));
-        $outputError = $getLogOutput(fn() => Superlog::error('foo'));
-        $outputWarning = $getLogOutput(fn() => Superlog::warning('foo'));
-        $outputInfo = $getLogOutput(fn() => Superlog::info('foo'));
-        $outputDebug = $getLogOutput(fn() => Superlog::debug('foo'));
+        $outputCritical = $getLogOutput(fn () => Superlog::critical('foo'));
+        $outputError = $getLogOutput(fn () => Superlog::error('foo'));
+        $outputWarning = $getLogOutput(fn () => Superlog::warning('foo'));
+        $outputInfo = $getLogOutput(fn () => Superlog::info('foo'));
+        $outputDebug = $getLogOutput(fn () => Superlog::debug('foo'));
 
         expect($outputCritical['json_output'])->not->toBeNull();
         expect($outputCritical['string_output'])->not->toBeNull();
@@ -447,11 +449,11 @@ describe('log level filter', function () use ($getLogOutput): void {
 
     it('should only show critical, error, warning and info logs when the level is info', function () use ($getLogOutput): void {
         SuperlogSettings::setLogLevel('info');
-        $outputCritical = $getLogOutput(fn() => Superlog::critical('foo'));
-        $outputError = $getLogOutput(fn() => Superlog::error('foo'));
-        $outputWarning = $getLogOutput(fn() => Superlog::warning('foo'));
-        $outputInfo = $getLogOutput(fn() => Superlog::info('foo'));
-        $outputDebug = $getLogOutput(fn() => Superlog::debug('foo'));
+        $outputCritical = $getLogOutput(fn () => Superlog::critical('foo'));
+        $outputError = $getLogOutput(fn () => Superlog::error('foo'));
+        $outputWarning = $getLogOutput(fn () => Superlog::warning('foo'));
+        $outputInfo = $getLogOutput(fn () => Superlog::info('foo'));
+        $outputDebug = $getLogOutput(fn () => Superlog::debug('foo'));
 
         expect($outputCritical['json_output'])->not->toBeNull();
         expect($outputCritical['string_output'])->not->toBeNull();
@@ -467,11 +469,11 @@ describe('log level filter', function () use ($getLogOutput): void {
 
     it('should show all levels logs when the level is debug', function () use ($getLogOutput): void {
         SuperlogSettings::setLogLevel('debug');
-        $outputCritical = $getLogOutput(fn() => Superlog::critical('foo'));
-        $outputError = $getLogOutput(fn() => Superlog::error('foo'));
-        $outputWarning = $getLogOutput(fn() => Superlog::warning('foo'));
-        $outputInfo = $getLogOutput(fn() => Superlog::info('foo'));
-        $outputDebug = $getLogOutput(fn() => Superlog::debug('foo'));
+        $outputCritical = $getLogOutput(fn () => Superlog::critical('foo'));
+        $outputError = $getLogOutput(fn () => Superlog::error('foo'));
+        $outputWarning = $getLogOutput(fn () => Superlog::warning('foo'));
+        $outputInfo = $getLogOutput(fn () => Superlog::info('foo'));
+        $outputDebug = $getLogOutput(fn () => Superlog::debug('foo'));
 
         expect($outputCritical['json_output'])->not->toBeNull();
         expect($outputCritical['string_output'])->not->toBeNull();
@@ -493,7 +495,7 @@ describe('default values', function () use ($getLogOutput): void {
     });
 
     it('should have default values when level is critical', function () use ($getLogOutput): void {
-        $output = $getLogOutput(fn() => Superlog::critical('foo'));
+        $output = $getLogOutput(fn () => Superlog::critical('foo'));
         $jsonOutput = $output['json_output'];
 
         expect($jsonOutput['channel'])->toContain('Resource id');
@@ -502,7 +504,7 @@ describe('default values', function () use ($getLogOutput): void {
     });
 
     it('should have default values when level is error', function () use ($getLogOutput): void {
-        $output = $getLogOutput(fn() => Superlog::error('foo'));
+        $output = $getLogOutput(fn () => Superlog::error('foo'));
         $jsonOutput = $output['json_output'];
 
         expect($jsonOutput['channel'])->toContain('Resource id');
@@ -511,7 +513,7 @@ describe('default values', function () use ($getLogOutput): void {
     });
 
     it('should have default values when level is warning', function () use ($getLogOutput): void {
-        $output = $getLogOutput(fn() => Superlog::warning('foo'));
+        $output = $getLogOutput(fn () => Superlog::warning('foo'));
         $jsonOutput = $output['json_output'];
 
         expect($jsonOutput['channel'])->toContain('Resource id');
@@ -520,7 +522,7 @@ describe('default values', function () use ($getLogOutput): void {
     });
 
     it('should have default values when level is info', function () use ($getLogOutput): void {
-        $output = $getLogOutput(fn() => Superlog::info('foo'));
+        $output = $getLogOutput(fn () => Superlog::info('foo'));
         $jsonOutput = $output['json_output'];
 
         expect($jsonOutput['channel'])->toContain('Resource id');
@@ -529,7 +531,7 @@ describe('default values', function () use ($getLogOutput): void {
     });
 
     it('should have default values when level is debug', function () use ($getLogOutput): void {
-        $output = $getLogOutput(fn() => Superlog::debug('foo'));
+        $output = $getLogOutput(fn () => Superlog::debug('foo'));
         $jsonOutput = $output['json_output'];
 
         expect($jsonOutput['channel'])->toContain('Resource id');
@@ -540,7 +542,7 @@ describe('default values', function () use ($getLogOutput): void {
 
 describe('log message with object', function () use ($getLogOutput): void {
     it('should be able to log message object with critical level', function () use ($getLogOutput): void {
-        $output = $getLogOutput(fn() => Superlog::critical([
+        $output = $getLogOutput(fn () => Superlog::critical([
             'any_data' => 'foo',
             'any_other_data' => 'bar',
             'nested_data' => [
@@ -559,7 +561,7 @@ describe('log message with object', function () use ($getLogOutput): void {
     });
 
     it('should be able to log message object with error level', function () use ($getLogOutput): void {
-        $output = $getLogOutput(fn() => Superlog::error([
+        $output = $getLogOutput(fn () => Superlog::error([
             'any_data' => 'foo',
             'any_other_data' => 'bar',
             'nested_data' => [
@@ -578,7 +580,7 @@ describe('log message with object', function () use ($getLogOutput): void {
     });
 
     it('should be able to log message object with warning level', function () use ($getLogOutput): void {
-        $output = $getLogOutput(fn() => Superlog::warning([
+        $output = $getLogOutput(fn () => Superlog::warning([
             'any_data' => 'foo',
             'any_other_data' => 'bar',
             'nested_data' => [
@@ -597,7 +599,7 @@ describe('log message with object', function () use ($getLogOutput): void {
     });
 
     it('should be able to log message object with info level', function () use ($getLogOutput): void {
-        $output = $getLogOutput(fn() => Superlog::info([
+        $output = $getLogOutput(fn () => Superlog::info([
             'any_data' => 'foo',
             'any_other_data' => 'bar',
             'nested_data' => [
@@ -616,7 +618,7 @@ describe('log message with object', function () use ($getLogOutput): void {
     });
 
     it('should be able to log message object with debug level', function () use ($getLogOutput): void {
-        $output = $getLogOutput(fn() => Superlog::debug([
+        $output = $getLogOutput(fn () => Superlog::debug([
             'any_data' => 'foo',
             'any_other_data' => 'bar',
             'nested_data' => [
@@ -632,5 +634,192 @@ describe('log message with object', function () use ($getLogOutput): void {
         expect($message['any_other_data'])->toBe('bar');
         expect($message['nested_data']['foo'])->toBe('bar');
         expect($message['nested_data']['baz'])->toBe('qux');
+    });
+});
+
+describe('observers', function () use ($getLogOutput): void {
+    it('notifies observers about the logging lifecycle with log level critical', function () use ($getLogOutput): void {
+        $observer = new class implements LoggerObserverContract
+        {
+            /** @var array<SuperlogData> */
+            public array $loggingEvents = [];
+
+            /** @var array<SuperlogData> */
+            public array $loggedEvents = [];
+
+            public function logging(SuperlogData $logData): void
+            {
+                $this->loggingEvents[] = $logData;
+            }
+
+            public function logged(SuperlogData $logData): void
+            {
+                $this->loggedEvents[] = $logData;
+            }
+        };
+        SuperlogSettings::addObserver($observer);
+
+        $getLogOutput(fn () => Superlog::critical('foo'));
+
+        expect($observer->loggingEvents)->toHaveCount(1);
+        expect($observer->loggedEvents)->toHaveCount(1);
+        foreach ($observer->loggingEvents as $logData) {
+            expect($logData->level)->toBe('critical');
+            expect($logData->message)->toContain('foo');
+            expect($logData)->toHaveProperties(['timestamp', 'channel', 'application', 'environment', 'logId', 'tags']);
+        }
+        foreach ($observer->loggedEvents as $logData) {
+            expect($logData->level)->toBe('critical');
+            expect($logData->message)->toContain('foo');
+            expect($logData)->toHaveProperties(['timestamp', 'channel', 'application', 'environment', 'logId', 'tags']);
+        }
+    });
+
+    it('notifies observers about the logging lifecycle with log level error', function () use ($getLogOutput): void {
+        $observer = new class implements LoggerObserverContract
+        {
+            /** @var array<SuperlogData> */
+            public array $loggingEvents = [];
+
+            /** @var array<SuperlogData> */
+            public array $loggedEvents = [];
+
+            public function logging(SuperlogData $logData): void
+            {
+                $this->loggingEvents[] = $logData;
+            }
+
+            public function logged(SuperlogData $logData): void
+            {
+                $this->loggedEvents[] = $logData;
+            }
+        };
+        SuperlogSettings::addObserver($observer);
+
+        $getLogOutput(fn () => Superlog::error('foo'));
+
+        expect($observer->loggingEvents)->toHaveCount(1);
+        expect($observer->loggedEvents)->toHaveCount(1);
+        foreach ($observer->loggingEvents as $logData) {
+            expect($logData->level)->toBe('error');
+            expect($logData->message)->toContain('foo');
+            expect($logData)->toHaveProperties(['timestamp', 'channel', 'application', 'environment', 'logId', 'tags']);
+        }
+        foreach ($observer->loggedEvents as $logData) {
+            expect($logData->level)->toBe('error');
+            expect($logData->message)->toContain('foo');
+            expect($logData)->toHaveProperties(['timestamp', 'channel', 'application', 'environment', 'logId', 'tags']);
+        }
+    });
+
+    it('notifies observers about the logging lifecycle with log level warning', function () use ($getLogOutput): void {
+        $observer = new class implements LoggerObserverContract
+        {
+            /** @var array<SuperlogData> */
+            public array $loggingEvents = [];
+
+            /** @var array<SuperlogData> */
+            public array $loggedEvents = [];
+
+            public function logging(SuperlogData $logData): void
+            {
+                $this->loggingEvents[] = $logData;
+            }
+
+            public function logged(SuperlogData $logData): void
+            {
+                $this->loggedEvents[] = $logData;
+            }
+        };
+        SuperlogSettings::addObserver($observer);
+
+        $getLogOutput(fn () => Superlog::warning('foo'));
+
+        expect($observer->loggingEvents)->toHaveCount(1);
+        expect($observer->loggedEvents)->toHaveCount(1);
+        foreach ($observer->loggingEvents as $logData) {
+            expect($logData->level)->toBe('warning');
+            expect($logData->message)->toContain('foo');
+            expect($logData)->toHaveProperties(['timestamp', 'channel', 'application', 'environment', 'logId', 'tags']);
+        }
+        foreach ($observer->loggedEvents as $logData) {
+            expect($logData->level)->toBe('warning');
+            expect($logData->message)->toContain('foo');
+            expect($logData)->toHaveProperties(['timestamp', 'channel', 'application', 'environment', 'logId', 'tags']);
+        }
+    });
+
+    it('notifies observers about the logging lifecycle with log level info', function () use ($getLogOutput): void {
+        $observer = new class implements LoggerObserverContract
+        {
+            /** @var array<SuperlogData> */
+            public array $loggingEvents = [];
+
+            /** @var array<SuperlogData> */
+            public array $loggedEvents = [];
+
+            public function logging(SuperlogData $logData): void
+            {
+                $this->loggingEvents[] = $logData;
+            }
+
+            public function logged(SuperlogData $logData): void
+            {
+                $this->loggedEvents[] = $logData;
+            }
+        };
+        SuperlogSettings::addObserver($observer);
+
+        $getLogOutput(fn () => Superlog::info('foo'));
+
+        expect($observer->loggingEvents)->toHaveCount(1);
+        expect($observer->loggedEvents)->toHaveCount(1);
+        foreach ($observer->loggingEvents as $logData) {
+            expect($logData->level)->toBe('info');
+            expect($logData->message)->toContain('foo');
+            expect($logData)->toHaveProperties(['timestamp', 'channel', 'application', 'environment', 'logId', 'tags']);
+        }
+        foreach ($observer->loggedEvents as $logData) {
+            expect($logData->level)->toBe('info');
+            expect($logData->message)->toContain('foo');
+            expect($logData)->toHaveProperties(['timestamp', 'channel', 'application', 'environment', 'logId', 'tags']);
+        }
+    });
+
+    it('notifies observers about the logging lifecycle with log level debug', function () use ($getLogOutput): void {
+        $observer = new class implements LoggerObserverContract
+        {
+            /** @var array<SuperlogData> */
+            public array $loggingEvents = [];
+
+            /** @var array<SuperlogData> */
+            public array $loggedEvents = [];
+
+            public function logging(SuperlogData $logData): void
+            {
+                $this->loggingEvents[] = $logData;
+            }
+
+            public function logged(SuperlogData $logData): void
+            {
+                $this->loggedEvents[] = $logData;
+            }
+        };
+        SuperlogSettings::addObserver($observer);
+
+        $getLogOutput(fn () => Superlog::debug('foo'));
+
+        expect($observer->loggingEvents)->toHaveCount(1);
+        expect($observer->loggedEvents)->toHaveCount(1);
+        foreach ($observer->loggingEvents as $logData) {
+            expect($logData->level)->toBe('debug');
+            expect($logData->message)->toContain('foo');
+            expect($logData)->toHaveProperties(['timestamp', 'channel', 'application', 'environment', 'logId', 'tags']);
+        }
+        foreach ($observer->loggedEvents as $logData) {
+            expect($logData->level)->toBe('debug');
+            expect($logData->message)->toContain('foo');
+            expect($logData)->toHaveProperties(['timestamp', 'channel', 'application', 'environment', 'logId', 'tags']);
+        }
     });
 });

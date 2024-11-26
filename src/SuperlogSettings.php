@@ -9,6 +9,7 @@ use Monolog\Handler\StreamHandler;
 use Monolog\Level;
 use Monolog\Logger;
 use RuntimeException;
+use Superlog\Contracts\LoggerObserverContract;
 
 final class SuperlogSettings
 {
@@ -33,6 +34,13 @@ final class SuperlogSettings
      * Environment name.
      */
     private static string $environment = '';
+
+    /**
+     * Observers for the logger.
+     *
+     * @var array<LoggerObserverContract>
+     */
+    private static array $observers = [];
 
     /**
      * Set the log level.
@@ -109,7 +117,7 @@ final class SuperlogSettings
     public static function getNewLogger(): Logger
     {
         self::validate();
-        $loggerName = self::getApplication() . '-' . 'logger';
+        $loggerName = self::getApplication().'-'.'logger';
         $logger = new Logger($loggerName);
 
         $logger->pushHandler(self::getNewStreamHandler());
@@ -155,5 +163,23 @@ final class SuperlogSettings
         if (! isset(self::$environment) || empty(self::$environment)) {
             throw new RuntimeException('Environment not set');
         }
+    }
+
+    /**
+     * Add observer to the logger.
+     */
+    public static function addObserver(LoggerObserverContract $observer): void
+    {
+        self::$observers[] = $observer;
+    }
+
+    /**
+     * Get the observers for the logger.
+     *
+     * @return array<LoggerObserverContract>
+     */
+    public static function getObservers(): array
+    {
+        return self::$observers;
     }
 }
