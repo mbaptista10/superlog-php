@@ -10,17 +10,6 @@ use Superlog\Data\SuperlogData;
 class Superlog implements LoggerContract
 {
     /**
-     * Superlog constructor.
-     *
-     * Initializes the logger with the provided SuperlogData.
-     */
-    public function __construct(
-        private readonly SuperlogData $logData
-    ) {
-        //
-    }
-
-    /**
      * Logs a message based on its specified level.
      *
      * This method routes the log data to the appropriate logging method
@@ -35,11 +24,11 @@ class Superlog implements LoggerContract
         }
 
         match ($logData->level) {
-            'critical' => SuperlogSettings::getNewLogger()->critical((string) $logData->toJson()),
             'error' => SuperlogSettings::getNewLogger()->error((string) $logData->toJson()),
             'warning' => SuperlogSettings::getNewLogger()->warning((string) $logData->toJson()),
             'info' => SuperlogSettings::getNewLogger()->info((string) $logData->toJson()),
             'debug' => SuperlogSettings::getNewLogger()->debug((string) $logData->toJson()),
+            default => SuperlogSettings::getNewLogger()->critical((string) $logData->toJson()),
         };
 
         foreach (SuperlogSettings::getObservers() as $observer) {
@@ -63,7 +52,7 @@ class Superlog implements LoggerContract
             environment: SuperlogSettings::getEnvironment()
         );
 
-        (new self($logData))->log($logData);
+        (new self)->log($logData);
     }
 
     /**
@@ -87,7 +76,7 @@ class Superlog implements LoggerContract
             environment: SuperlogSettings::getEnvironment()
         );
 
-        (new self($logData))->log($logData);
+        (new self)->log($logData);
     }
 
     /**
@@ -111,7 +100,7 @@ class Superlog implements LoggerContract
             environment: SuperlogSettings::getEnvironment()
         );
 
-        (new self($logData))->log($logData);
+        (new self)->log($logData);
     }
 
     /**
@@ -135,7 +124,7 @@ class Superlog implements LoggerContract
             environment: SuperlogSettings::getEnvironment()
         );
 
-        (new self($logData))->log($logData);
+        (new self)->log($logData);
     }
 
     /**
@@ -159,7 +148,7 @@ class Superlog implements LoggerContract
             environment: SuperlogSettings::getEnvironment()
         );
 
-        (new self($logData))->log($logData);
+        (new self)->log($logData);
     }
 
     /**
