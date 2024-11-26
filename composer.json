@@ -1,7 +1,7 @@
 {
     "name": "mbaptista10/superlog-php",
-    "description": "Logs em one line JSON",
-    "keywords": ["php", "superlog"],
+    "description": "Lib construída em cima do Monolog para log em linha no formato JSON",
+    "keywords": ["php", "monolog", "superlog"],
     "license": "MIT",
     "authors": [
         {
