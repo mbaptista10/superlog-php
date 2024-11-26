@@ -1,0 +1,58 @@
+{
+    "name": "mbaptista10/superlog-php",
+    "description": "Logs em one line JSON",
+    "keywords": ["php", "superlog"],
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Matheus Baptista",
+            "email": "matheusdp.baptista10@gmail.com"
+        }
+    ],
+    "require": {
+        "php": "^8.3.0",
+        "monolog/monolog": "^3.7",
+        "ramsey/uuid": "^4.7"
+    },
+    "require-dev": {
+        "laravel/pint": "^1.18.1",
+        "pestphp/pest": "^3.5.1",
+        "pestphp/pest-plugin-type-coverage": "^3.1",
+        "phpstan/phpstan": "^1.12.7",
+        "rector/rector": "^1.2.8",
+        "symfony/var-dumper": "^7.1.6"
+    },
+    "autoload": {
+        "psr-4": {
+            "Superlog\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Tests\\": "tests/"
+        }
+    },
+    "minimum-stability": "stable",
+    "prefer-stable": true,
+    "config": {
+        "sort-packages": true,
+        "preferred-install": "dist",
+        "allow-plugins": {
+            "pestphp/pest-plugin": true
+        }
+    },
+    "scripts": {
+        "refactor": "rector",
+        "lint": "pint",
+        "test:refactor": "rector --dry-run",
+        "test:lint": "pint --test",
+        "test:types": "phpstan analyse --ansi",
+        "test:automated": "pest --colors=always --coverage --parallel --min=100",
+        "test": [
+            "@test:refactor",
+            "@test:lint",
+            "@test:types",
+            "@test:automated"
+        ]
+    }
+}
