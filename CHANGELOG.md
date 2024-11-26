@@ -11,8 +11,9 @@ e este projeto adere a [Versionamento Semântico](http://semver.org/).
   - `SuperlogData` para estruturar dados de log.
   - `Superlog` para lógica de logging.
   - `SuperlogSettings` para configurações.
+  - `LoggerObserverContract` para definir métodos de observação do logger.
   - Testes para validar o funcionamento do sistema. (#66a0abcd)
-- Configuração do Xdebug no Docker:
+- Configuração do Xdebug no Docker para executar localmente o projeto:
   - Arquivos de configuração do PHP.
   - Arquivo `991-xdebug.ini`.
   - Configurações para desenvolvimento, cobertura, depuração e perfil. (#e8c36bb7)
