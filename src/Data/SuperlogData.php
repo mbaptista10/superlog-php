@@ -11,12 +11,12 @@ final readonly class SuperlogData
     /**
      * The log id
      */
-    private string $logId;
+    public string $logId;
 
     /**
      * The timestamp log
      */
-    private string $timestamp;
+    public string $timestamp;
 
     /**
      * Create a new instance of the class
@@ -26,7 +26,7 @@ final readonly class SuperlogData
         public string|array $message,
         /** @var array<int, string> */
         public array $tags,
-        private string $level,
+        public string $level,
         public string $channel,
         public string $application,
         public string $environment,
@@ -67,7 +67,7 @@ final readonly class SuperlogData
     {
         $tags = [
             ...$this->tags,
-            'log_id:' . $this->logId,
+            'log_id:'.$this->logId,
         ];
 
         return json_encode(
