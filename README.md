@@ -1,3 +1,12 @@
+<p align="center">
+    <a href="https://github.com/mbaptista10/superlog-php/actions"><img alt="GitHub Workflow Status (main)" src="https://github.com/mbaptista10/superlog-php/actions/workflows/tests.yml/badge.svg"></a>
+    <a href="https://packagist.org/packages/mbaptista/superlog-php"><img alt="Total Downloads" src="https://img.shields.io/packagist/dt/mbaptista10/superlog-php"></a>
+    <a href="https://packagist.org/packages/mbaptista10/superlog-php"><img alt="Latest Version" src="https://img.shields.io/packagist/v/mbaptista10/superlog-php"></a>
+    <a href="https://packagist.org/packages/mbaptista10/superlog-php"><img alt="License" src="https://img.shields.io/packagist/l/mbaptista10/superlog-php"></a>
+</p>
+
+---
+
 # Superlog PHP
 
 Superlog PHP é um projeto desenvolvido em PHP com foco em logs em linha no formato JSON. Este projeto utiliza Docker para configuração de ambiente, Composer para gerenciamento de dependências e ferramentas como PHPUnit, PHPStan, Laravel Pint e PestPHP para qualidade de código e testes.
