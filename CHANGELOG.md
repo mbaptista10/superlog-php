@@ -4,6 +4,18 @@ Todas as alterações relevantes para este projeto serão documentadas neste arq
 O formato segue o padrão [Keep a Changelog](http://keepachangelog.com/)
 e este projeto adere a [Versionamento Semântico](http://semver.org/).
 
+## [1.0.1] - 2024-11-27
+### Adicionado
+- **Badges no README**:
+  - Status do workflow do GitHub.
+  - Total de downloads.
+  - Versão mais recente.
+  - Licença.
+- Melhorias visuais no README com separação por linha horizontal.
+
+- **Licença MIT**:
+  - Adicionado o arquivo `LICENSE.md` com os termos da licença MIT.
+
 ## [1.0.0] - 2024-11-27
 ### Adicionado
 - Implementado sistema de logging com:
