@@ -4,7 +4,7 @@ Todas as alterações relevantes para este projeto serão documentadas neste arq
 O formato segue o padrão [Keep a Changelog](http://keepachangelog.com/)
 e este projeto adere a [Versionamento Semântico](http://semver.org/).
 
-## [Não lançado]
+## [1.0.0] - 2024-11-27
 ### Adicionado
 - Implementado sistema de logging com:
   - `LoggerContract` para definir métodos de logging.
