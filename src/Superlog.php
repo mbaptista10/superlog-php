@@ -41,10 +41,8 @@ class Superlog implements LoggerContract
      */
     public static function critical(string|array $message, array $tags = []): void
     {
-        $formattedMessage = self::formatMessage($message);
-
         $logData = SuperlogData::from(
-            message: $formattedMessage,
+            message: $message,
             tags: $tags,
             level: __FUNCTION__,
             channel: SuperlogSettings::getChannel(),
@@ -65,10 +63,8 @@ class Superlog implements LoggerContract
             return;
         }
 
-        $formattedMessage = self::formatMessage($message);
-
         $logData = SuperlogData::from(
-            message: $formattedMessage,
+            message: $message,
             tags: $tags,
             level: __FUNCTION__,
             channel: SuperlogSettings::getChannel(),
@@ -89,10 +85,8 @@ class Superlog implements LoggerContract
             return;
         }
 
-        $formattedMessage = self::formatMessage($message);
-
         $logData = SuperlogData::from(
-            message: $formattedMessage,
+            message: $message,
             tags: $tags,
             level: __FUNCTION__,
             channel: SuperlogSettings::getChannel(),
@@ -113,10 +107,8 @@ class Superlog implements LoggerContract
             return;
         }
 
-        $formattedMessage = self::formatMessage($message);
-
         $logData = SuperlogData::from(
-            message: $formattedMessage,
+            message: $message,
             tags: $tags,
             level: __FUNCTION__,
             channel: SuperlogSettings::getChannel(),
@@ -137,10 +129,8 @@ class Superlog implements LoggerContract
             return;
         }
 
-        $formattedMessage = self::formatMessage($message);
-
         $logData = SuperlogData::from(
-            message: $formattedMessage,
+            message: $message,
             tags: $tags,
             level: __FUNCTION__,
             channel: SuperlogSettings::getChannel(),
@@ -149,22 +139,5 @@ class Superlog implements LoggerContract
         );
 
         (new self)->log($logData);
-    }
-
-    /**
-     * Format a message into an array.
-     *
-     * @param  string|array<mixed>  $message  The message to format.
-     * @return array<mixed> The formatted message.
-     */
-    private static function formatMessage(string|array $message): array
-    {
-        if (is_string($message)) {
-            return [
-                'description' => $message,
-            ];
-        }
-
-        return $message;
     }
 }

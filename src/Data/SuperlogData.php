@@ -6,7 +6,7 @@ namespace Superlog\Data;
 
 use Ramsey\Uuid\Uuid;
 
-final readonly class SuperlogData
+final class SuperlogData
 {
     /**
      * The log id
@@ -19,20 +19,30 @@ final readonly class SuperlogData
     public string $timestamp;
 
     /**
+     * The message to log
+     *
+     * @var array<mixed>
+     */
+    public array $message;
+
+    /**
      * Create a new instance of the class
+     *
+     * @param  array<mixed>  $message
      */
     public function __construct(
         /** @var string|array<mixed> */
-        public string|array $message,
+        string|array $message,
         /** @var array<int, string> */
-        public array $tags,
-        public string $level,
-        public string $channel,
-        public string $application,
-        public string $environment,
+        public readonly array $tags,
+        public readonly string $level,
+        public readonly string $channel,
+        public readonly string $application,
+        public readonly string $environment,
     ) {
         $this->logId = Uuid::uuid4()->toString();
         $this->timestamp = date(DATE_ATOM);
+        $this->message = $this->formatMessage($message);
     }
 
     /**
@@ -83,5 +93,37 @@ final readonly class SuperlogData
             ],
             depth: 1024
         );
+    }
+
+    /**
+     * Format a message into an array.
+     *
+     * @param  string|array<mixed>  $message
+     * @return array<mixed>
+     */
+    private function formatMessage(string|array $message): array
+    {
+        if (is_string($message)) {
+            return [
+                'description' => $message,
+            ];
+        }
+
+        return $message;
+    }
+
+    /**
+     * Append a message to the current message.
+     *
+     * @param  string|array<mixed>  $message
+     */
+    public function appendToMessage(string|array $message): void
+    {
+        $message = is_string($message) ? ["{$message}" => $message] : $message;
+
+        $this->message = [
+            ...$this->message,
+            ...$message,
+        ];
     }
 }

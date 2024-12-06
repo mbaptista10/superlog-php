@@ -649,6 +649,13 @@ describe('observers', function () use ($logInMemory): void {
 
             public function logging(SuperlogData $logData): void
             {
+                $logData->appendToMessage([
+                    'any_data' => [
+                        'id' => 'any-id',
+                        'name' => 'any-name',
+                    ],
+                ]);
+                $logData->appendToMessage('bar');
                 $this->loggingEvents[] = $logData;
             }
 
@@ -666,6 +673,10 @@ describe('observers', function () use ($logInMemory): void {
         foreach ($observer->loggingEvents as $logData) {
             expect($logData->level)->toBe('critical');
             expect($logData->message)->toContain('foo');
+            expect($logData->message)->toHaveKeys(['any_data', 'any_data.id', 'any_data.name', 'bar']);
+            expect($logData->message['any_data']['id'])->toContain('any-id');
+            expect($logData->message['any_data']['name'])->toContain('any-name');
+            expect($logData->message['bar'])->toBe('bar');
             expect($logData)->toHaveProperties(['timestamp', 'channel', 'application', 'environment', 'logId', 'tags']);
         }
         foreach ($observer->loggedEvents as $logData) {
@@ -686,6 +697,12 @@ describe('observers', function () use ($logInMemory): void {
 
             public function logging(SuperlogData $logData): void
             {
+                $logData->appendToMessage([
+                    'any_data' => [
+                        'id' => 'any-id',
+                        'name' => 'any-name',
+                    ],
+                ]);
                 $this->loggingEvents[] = $logData;
             }
 
@@ -703,6 +720,9 @@ describe('observers', function () use ($logInMemory): void {
         foreach ($observer->loggingEvents as $logData) {
             expect($logData->level)->toBe('error');
             expect($logData->message)->toContain('foo');
+            expect($logData->message)->toHaveKeys(['any_data', 'any_data.id', 'any_data.name']);
+            expect($logData->message['any_data']['id'])->toContain('any-id');
+            expect($logData->message['any_data']['name'])->toContain('any-name');
             expect($logData)->toHaveProperties(['timestamp', 'channel', 'application', 'environment', 'logId', 'tags']);
         }
         foreach ($observer->loggedEvents as $logData) {
@@ -723,6 +743,13 @@ describe('observers', function () use ($logInMemory): void {
 
             public function logging(SuperlogData $logData): void
             {
+                $logData->appendToMessage([
+                    'any_data' => [
+                        'id' => 'any-id',
+                        'name' => 'any-name',
+                    ],
+                ]);
+                $logData->appendToMessage('bar');
                 $this->loggingEvents[] = $logData;
             }
 
@@ -740,6 +767,10 @@ describe('observers', function () use ($logInMemory): void {
         foreach ($observer->loggingEvents as $logData) {
             expect($logData->level)->toBe('warning');
             expect($logData->message)->toContain('foo');
+            expect($logData->message)->toHaveKeys(['any_data', 'any_data.id', 'any_data.name', 'bar']);
+            expect($logData->message['any_data']['id'])->toContain('any-id');
+            expect($logData->message['any_data']['name'])->toContain('any-name');
+            expect($logData->message['bar'])->toBe('bar');
             expect($logData)->toHaveProperties(['timestamp', 'channel', 'application', 'environment', 'logId', 'tags']);
         }
         foreach ($observer->loggedEvents as $logData) {
@@ -760,6 +791,13 @@ describe('observers', function () use ($logInMemory): void {
 
             public function logging(SuperlogData $logData): void
             {
+                $logData->appendToMessage([
+                    'any_data' => [
+                        'id' => 'any-id',
+                        'name' => 'any-name',
+                    ],
+                ]);
+                $logData->appendToMessage('bar');
                 $this->loggingEvents[] = $logData;
             }
 
@@ -777,6 +815,10 @@ describe('observers', function () use ($logInMemory): void {
         foreach ($observer->loggingEvents as $logData) {
             expect($logData->level)->toBe('info');
             expect($logData->message)->toContain('foo');
+            expect($logData->message)->toHaveKeys(['any_data', 'any_data.id', 'any_data.name', 'bar']);
+            expect($logData->message['any_data']['id'])->toContain('any-id');
+            expect($logData->message['any_data']['name'])->toContain('any-name');
+            expect($logData->message['bar'])->toBe('bar');
             expect($logData)->toHaveProperties(['timestamp', 'channel', 'application', 'environment', 'logId', 'tags']);
         }
         foreach ($observer->loggedEvents as $logData) {
@@ -797,6 +839,13 @@ describe('observers', function () use ($logInMemory): void {
 
             public function logging(SuperlogData $logData): void
             {
+                $logData->appendToMessage([
+                    'any_data' => [
+                        'id' => 'any-id',
+                        'name' => 'any-name',
+                    ],
+                ]);
+                $logData->appendToMessage('bar');
                 $this->loggingEvents[] = $logData;
             }
 
@@ -814,6 +863,10 @@ describe('observers', function () use ($logInMemory): void {
         foreach ($observer->loggingEvents as $logData) {
             expect($logData->level)->toBe('debug');
             expect($logData->message)->toContain('foo');
+            expect($logData->message)->toHaveKeys(['any_data', 'any_data.id', 'any_data.name', 'bar']);
+            expect($logData->message['any_data']['id'])->toContain('any-id');
+            expect($logData->message['any_data']['name'])->toContain('any-name');
+            expect($logData->message['bar'])->toBe('bar');
             expect($logData)->toHaveProperties(['timestamp', 'channel', 'application', 'environment', 'logId', 'tags']);
         }
         foreach ($observer->loggedEvents as $logData) {
