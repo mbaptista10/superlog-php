@@ -4,6 +4,15 @@ Todas as alterações relevantes para este projeto serão documentadas neste arq
 
 O formato segue o padrão [Keep a Changelog](http://keepachangelog.com/) e este projeto adere a [Versionamento Semântico](http://semver.org/).
 
+## [1.2.0] - 2024-12-09
+### Adicionado
+- **Método `raw` para logging dinâmico**:
+  - Adicionado o método `raw` à interface `LoggerContract` e implementado na classe `Superlog`.
+  - Permite registrar logs com níveis especificados dinamicamente, oferecendo maior flexibilidade.
+  - Testes incluídos para garantir a funcionalidade do método. (#f583480)
+
+---
+
 ## [1.1.0] - 2024-12-06
 ### Adicionado
 - **Funcionalidade de anexar mensagens ao SuperlogData**:
