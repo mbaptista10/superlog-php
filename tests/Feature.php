@@ -876,3 +876,40 @@ describe('observers', function () use ($logInMemory): void {
         }
     });
 });
+
+describe('raw', function () use ($logInMemory): void {
+    it('logs with critical level', function () use ($logInMemory): void {
+        $output = $logInMemory(fn () => Superlog::raw('critical', 'foo'));
+        $jsonOutput = $output['json_output'];
+
+        expect($jsonOutput)->toHaveKeys(['timestamp', 'level', 'channel', 'application', 'environment', 'message', 'log_id', 'tags']);
+    });
+
+    it('logs with error level', function () use ($logInMemory): void {
+        $output = $logInMemory(fn () => Superlog::raw('error', 'foo'));
+        $jsonOutput = $output['json_output'];
+
+        expect($jsonOutput)->toHaveKeys(['timestamp', 'level', 'channel', 'application', 'environment', 'message', 'log_id', 'tags']);
+    });
+
+    it('logs with warning level', function () use ($logInMemory): void {
+        $output = $logInMemory(fn () => Superlog::raw('warning', 'foo'));
+        $jsonOutput = $output['json_output'];
+
+        expect($jsonOutput)->toHaveKeys(['timestamp', 'level', 'channel', 'application', 'environment', 'message', 'log_id', 'tags']);
+    });
+
+    it('logs with info level', function () use ($logInMemory): void {
+        $output = $logInMemory(fn () => Superlog::raw('info', 'foo'));
+        $jsonOutput = $output['json_output'];
+
+        expect($jsonOutput)->toHaveKeys(['timestamp', 'level', 'channel', 'application', 'environment', 'message', 'log_id', 'tags']);
+    });
+
+    it('logs with debug level', function () use ($logInMemory): void {
+        $output = $logInMemory(fn () => Superlog::raw('debug', 'foo'));
+        $jsonOutput = $output['json_output'];
+
+        expect($jsonOutput)->toHaveKeys(['timestamp', 'level', 'channel', 'application', 'environment', 'message', 'log_id', 'tags']);
+    });
+});

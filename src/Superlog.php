@@ -140,4 +140,18 @@ class Superlog implements LoggerContract
 
         (new self)->log($logData);
     }
+
+    /**
+     * {@inheritdoc}
+     */
+    public static function raw(string $level, string|array $message, array $tags = []): void
+    {
+        match ($level) {
+            'error' => self::error($message, $tags),
+            'warning' => self::warning($message, $tags),
+            'info' => self::info($message, $tags),
+            'debug' => self::debug($message, $tags),
+            default => self::critical($message, $tags),
+        };
+    }
 }

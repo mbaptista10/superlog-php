@@ -45,4 +45,18 @@ interface LoggerContract
      * @param  array<int, string>  $tags
      */
     public static function debug(string|array $message, array $tags = []): void;
+
+    /**
+     * Logs a message with a specified log level.
+     *
+     * This method allows logging messages dynamically by specifying the log level
+     * as a parameter. It routes the message to the appropriate static method
+     * (`error`, `warning`, `info`, `debug`, or `critical`) based on the level
+     * provided. If an unsupported log level is specified, it defaults to the
+     * `critical` level.
+     *
+     * @param  string|array<mixed>  $message
+     * @param  array<int,  string>  $tags
+     */
+    public static function raw(string $level, string|array $message, array $tags = []): void;
 }
