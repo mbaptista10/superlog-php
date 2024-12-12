@@ -374,7 +374,8 @@ describe('log message', function () use ($logInMemory): void {
         $jsonOutput = $output['json_output'];
         $message = $jsonOutput['message'];
 
-        expect($message['description'])->toBe('foo');
+        expect($message)->toBeJson();
+        expect($message)->toBe('{"description":"foo"}');
     });
 
     it('logs with error level should have a message in description key', function () use ($logInMemory): void {
@@ -382,7 +383,8 @@ describe('log message', function () use ($logInMemory): void {
         $jsonOutput = $output['json_output'];
         $message = $jsonOutput['message'];
 
-        expect($message['description'])->toBe('foo');
+        expect($message)->toBeJson();
+        expect($message)->toBe('{"description":"foo"}');
     });
 
     it('logs with warning level should have a message in description key', function () use ($logInMemory): void {
@@ -390,7 +392,8 @@ describe('log message', function () use ($logInMemory): void {
         $jsonOutput = $output['json_output'];
         $message = $jsonOutput['message'];
 
-        expect($message['description'])->toBe('foo');
+        expect($message)->toBeJson();
+        expect($message)->toContain('"description":"foo"');
     });
 
     it('logs with info level should have a message in description key', function () use ($logInMemory): void {
@@ -398,7 +401,8 @@ describe('log message', function () use ($logInMemory): void {
         $jsonOutput = $output['json_output'];
         $message = $jsonOutput['message'];
 
-        expect($message['description'])->toBe('foo');
+        expect($message)->toBeJson();
+        expect($message)->toBe('{"description":"foo"}');
     });
 
     it('logs with debug level should have a message in description key', function () use ($logInMemory): void {
@@ -406,7 +410,8 @@ describe('log message', function () use ($logInMemory): void {
         $jsonOutput = $output['json_output'];
         $message = $jsonOutput['message'];
 
-        expect($message['description'])->toBe('foo');
+        expect($message)->toBeJson();
+        expect($message)->toBe('{"description":"foo"}');
     });
 });
 
@@ -619,11 +624,8 @@ describe('log message with object', function () use ($logInMemory): void {
         $jsonOutput = $output['json_output'];
         $message = $jsonOutput['message'];
 
-        expect($message)->toHaveKeys(['any_data', 'any_other_data', 'nested_data.foo', 'nested_data.baz']);
-        expect($message['any_data'])->toBe('foo');
-        expect($message['any_other_data'])->toBe('bar');
-        expect($message['nested_data']['foo'])->toBe('bar');
-        expect($message['nested_data']['baz'])->toBe('qux');
+        expect($message)->toBeJson();
+        expect($message)->toBe('{"any_data":"foo","any_other_data":"bar","nested_data":{"foo":"bar","baz":"qux"}}');
     });
 
     it('should be able to log message object with error level', function () use ($logInMemory): void {
@@ -638,11 +640,8 @@ describe('log message with object', function () use ($logInMemory): void {
         $jsonOutput = $output['json_output'];
         $message = $jsonOutput['message'];
 
-        expect($message)->toHaveKeys(['any_data', 'any_other_data', 'nested_data.foo', 'nested_data.baz']);
-        expect($message['any_data'])->toBe('foo');
-        expect($message['any_other_data'])->toBe('bar');
-        expect($message['nested_data']['foo'])->toBe('bar');
-        expect($message['nested_data']['baz'])->toBe('qux');
+        expect($message)->toBeJson();
+        expect($message)->toBe('{"any_data":"foo","any_other_data":"bar","nested_data":{"foo":"bar","baz":"qux"}}');
     });
 
     it('should be able to log message object with warning level', function () use ($logInMemory): void {
@@ -657,11 +656,8 @@ describe('log message with object', function () use ($logInMemory): void {
         $jsonOutput = $output['json_output'];
         $message = $jsonOutput['message'];
 
-        expect($message)->toHaveKeys(['any_data', 'any_other_data', 'nested_data.foo', 'nested_data.baz']);
-        expect($message['any_data'])->toBe('foo');
-        expect($message['any_other_data'])->toBe('bar');
-        expect($message['nested_data']['foo'])->toBe('bar');
-        expect($message['nested_data']['baz'])->toBe('qux');
+        expect($message)->toBeJson();
+        expect($message)->toBe('{"any_data":"foo","any_other_data":"bar","nested_data":{"foo":"bar","baz":"qux"}}');
     });
 
     it('should be able to log message object with info level', function () use ($logInMemory): void {
@@ -676,11 +672,8 @@ describe('log message with object', function () use ($logInMemory): void {
         $jsonOutput = $output['json_output'];
         $message = $jsonOutput['message'];
 
-        expect($message)->toHaveKeys(['any_data', 'any_other_data', 'nested_data.foo', 'nested_data.baz']);
-        expect($message['any_data'])->toBe('foo');
-        expect($message['any_other_data'])->toBe('bar');
-        expect($message['nested_data']['foo'])->toBe('bar');
-        expect($message['nested_data']['baz'])->toBe('qux');
+        expect($message)->toBeJson();
+        expect($message)->toBe('{"any_data":"foo","any_other_data":"bar","nested_data":{"foo":"bar","baz":"qux"}}');
     });
 
     it('should be able to log message object with debug level', function () use ($logInMemory): void {
@@ -695,11 +688,8 @@ describe('log message with object', function () use ($logInMemory): void {
         $jsonOutput = $output['json_output'];
         $message = $jsonOutput['message'];
 
-        expect($message)->toHaveKeys(['any_data', 'any_other_data', 'nested_data.foo', 'nested_data.baz']);
-        expect($message['any_data'])->toBe('foo');
-        expect($message['any_other_data'])->toBe('bar');
-        expect($message['nested_data']['foo'])->toBe('bar');
-        expect($message['nested_data']['baz'])->toBe('qux');
+        expect($message)->toBeJson();
+        expect($message)->toBe('{"any_data":"foo","any_other_data":"bar","nested_data":{"foo":"bar","baz":"qux"}}');
     });
 });
 
