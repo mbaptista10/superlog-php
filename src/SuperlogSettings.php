@@ -20,10 +20,8 @@ final class SuperlogSettings
 
     /**
      * Channel name for the logger.
-     *
-     * @var string|resource
      */
-    private static $channel = 'stdout';
+    private static string $channel = 'stdout';
 
     /**
      * Application name.
@@ -43,6 +41,13 @@ final class SuperlogSettings
     private static array $observers = [];
 
     /**
+     * The stream resource for the logger.
+     *
+     * @var resource
+     */
+    private static $stream;
+
+    /**
      * Set the log level.
      */
     public static function setLogLevel(string $logLevel): void
@@ -60,20 +65,16 @@ final class SuperlogSettings
 
     /**
      * Set the channel.
-     *
-     * @param  string|resource  $channel
      */
-    public static function setChannel($channel): void
+    public static function setChannel(string $channel): void
     {
         self::$channel = $channel;
     }
 
     /**
      * Get the channel.
-     *
-     * @return string|resource
      */
-    public static function getChannel()
+    public static function getChannel(): string
     {
         return self::$channel;
     }
@@ -111,6 +112,26 @@ final class SuperlogSettings
     }
 
     /**
+     * Get the stream resource
+     *
+     * @return resource
+     */
+    public static function getStream()
+    {
+        return self::$stream;
+    }
+
+    /**
+     * Set the stream resource
+     *
+     * @param  resource  $stream
+     */
+    public static function setStream($stream): void
+    {
+        self::$stream = $stream;
+    }
+
+    /**
      * Returns the configured logger instance.
      * Creates the logger if it has not been initialized yet.
      */
@@ -130,7 +151,7 @@ final class SuperlogSettings
      */
     private static function getNewStreamHandler(): StreamHandler
     {
-        $stream = self::getChannel() === 'stdout' ? 'php://stdout' : self::getChannel();
+
         $level = match (self::getLogLevel()) {
             'debug' => Level::Debug,
             'info' => Level::Info,
@@ -139,7 +160,7 @@ final class SuperlogSettings
             default => Level::Critical,
         };
 
-        $streamHandler = new StreamHandler($stream, $level);
+        $streamHandler = new StreamHandler(self::getStream(), $level);
         $streamHandler->setFormatter(new LineFormatter("%message%\n"));
 
         return $streamHandler;
@@ -162,6 +183,10 @@ final class SuperlogSettings
 
         if (! isset(self::$environment) || empty(self::$environment)) {
             throw new RuntimeException('Environment not set');
+        }
+
+        if (! is_resource(self::$stream)) {
+            throw new RuntimeException('Stream not set or invalid');
         }
     }
 

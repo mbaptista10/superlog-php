@@ -6,17 +6,18 @@ use Superlog\Superlog;
 use Superlog\SuperlogSettings;
 
 $logInMemory = function ($logCallback): array {
-    $channel = fopen('php://memory', 'a+');
+    $stream = fopen('php://memory', 'a+');
+    SuperlogSettings::setChannel('channel');
     SuperlogSettings::setEnvironment('testing');
     SuperlogSettings::setApplication('application');
-    SuperlogSettings::setChannel($channel);
+    SuperlogSettings::setStream($stream);
 
     $logCallback();
 
-    fseek($channel, 0);
-    $stringOutput = fread($channel, 1024);
+    fseek($stream, 0);
+    $stringOutput = fread($stream, 1024);
     $jsonOutput = json_decode($stringOutput, true);
-    fclose($channel);
+    fclose($stream);
 
     return [
         'string_output' => $stringOutput,
@@ -26,9 +27,10 @@ $logInMemory = function ($logCallback): array {
 
 describe('validate', function (): void {
     it('should throw exception when channel is empty with critical level', function (): void {
-        SuperlogSettings::setChannel(null);
+        SuperlogSettings::setChannel('');
         SuperlogSettings::setApplication('application');
         SuperlogSettings::setEnvironment('environment');
+        SuperlogSettings::setStream(fopen('php://memory', '+a'));
 
         expect(fn () => Superlog::critical('foo'))->toThrow(RuntimeException::class, 'Channel not set');
     });
@@ -37,6 +39,7 @@ describe('validate', function (): void {
         SuperlogSettings::setChannel('channel');
         SuperlogSettings::setApplication('');
         SuperlogSettings::setEnvironment('environment');
+        SuperlogSettings::setStream(fopen('php://memory', '+a'));
 
         expect(fn () => Superlog::critical('foo'))->toThrow(RuntimeException::class, 'Application not set');
     });
@@ -45,14 +48,16 @@ describe('validate', function (): void {
         SuperlogSettings::setChannel('channel');
         SuperlogSettings::setApplication('application');
         SuperlogSettings::setEnvironment('');
+        SuperlogSettings::setStream(fopen('php://memory', '+a'));
 
         expect(fn () => Superlog::critical('foo'))->toThrow(RuntimeException::class, 'Environment not set');
     });
 
     it('should throw exception when channel is empty with error level', function (): void {
-        SuperlogSettings::setChannel(null);
+        SuperlogSettings::setChannel('');
         SuperlogSettings::setApplication('application');
         SuperlogSettings::setEnvironment('environment');
+        SuperlogSettings::setStream(fopen('php://memory', '+a'));
 
         expect(fn () => Superlog::error('foo'))->toThrow(RuntimeException::class, 'Channel not set');
     });
@@ -61,6 +66,7 @@ describe('validate', function (): void {
         SuperlogSettings::setChannel('channel');
         SuperlogSettings::setApplication('');
         SuperlogSettings::setEnvironment('environment');
+        SuperlogSettings::setStream(fopen('php://memory', '+a'));
 
         expect(fn () => Superlog::error('foo'))->toThrow(RuntimeException::class, 'Application not set');
     });
@@ -69,14 +75,16 @@ describe('validate', function (): void {
         SuperlogSettings::setChannel('channel');
         SuperlogSettings::setApplication('application');
         SuperlogSettings::setEnvironment('');
+        SuperlogSettings::setStream(fopen('php://memory', '+a'));
 
         expect(fn () => Superlog::error('foo'))->toThrow(RuntimeException::class, 'Environment not set');
     });
 
     it('should throw exception when channel is empty with warning level', function (): void {
-        SuperlogSettings::setChannel(null);
+        SuperlogSettings::setChannel('');
         SuperlogSettings::setApplication('application');
         SuperlogSettings::setEnvironment('environment');
+        SuperlogSettings::setStream(fopen('php://memory', '+a'));
 
         expect(fn () => Superlog::warning('foo'))->toThrow(RuntimeException::class, 'Channel not set');
     });
@@ -85,6 +93,7 @@ describe('validate', function (): void {
         SuperlogSettings::setChannel('channel');
         SuperlogSettings::setApplication('');
         SuperlogSettings::setEnvironment('environment');
+        SuperlogSettings::setStream(fopen('php://memory', '+a'));
 
         expect(fn () => Superlog::warning('foo'))->toThrow(RuntimeException::class, 'Application not set');
     });
@@ -93,14 +102,16 @@ describe('validate', function (): void {
         SuperlogSettings::setChannel('channel');
         SuperlogSettings::setApplication('application');
         SuperlogSettings::setEnvironment('');
+        SuperlogSettings::setStream(fopen('php://memory', '+a'));
 
         expect(fn () => Superlog::warning('foo'))->toThrow(RuntimeException::class, 'Environment not set');
     });
 
     it('should throw exception when channel is empty with info level', function (): void {
-        SuperlogSettings::setChannel(null);
+        SuperlogSettings::setChannel('');
         SuperlogSettings::setApplication('application');
         SuperlogSettings::setEnvironment('environment');
+        SuperlogSettings::setStream(fopen('php://memory', '+a'));
 
         expect(fn () => Superlog::info('foo'))->toThrow(RuntimeException::class, 'Channel not set');
     });
@@ -109,6 +120,7 @@ describe('validate', function (): void {
         SuperlogSettings::setChannel('channel');
         SuperlogSettings::setApplication('');
         SuperlogSettings::setEnvironment('environment');
+        SuperlogSettings::setStream(fopen('php://memory', '+a'));
 
         expect(fn () => Superlog::info('foo'))->toThrow(RuntimeException::class, 'Application not set');
     });
@@ -117,14 +129,16 @@ describe('validate', function (): void {
         SuperlogSettings::setChannel('channel');
         SuperlogSettings::setApplication('application');
         SuperlogSettings::setEnvironment('');
+        SuperlogSettings::setStream(fopen('php://memory', '+a'));
 
         expect(fn () => Superlog::info('foo'))->toThrow(RuntimeException::class, 'Environment not set');
     });
 
     it('should throw exception when channel is empty with debug level', function (): void {
-        SuperlogSettings::setChannel(null);
+        SuperlogSettings::setChannel('');
         SuperlogSettings::setApplication('application');
         SuperlogSettings::setEnvironment('environment');
+        SuperlogSettings::setStream(fopen('php://memory', '+a'));
 
         expect(fn () => Superlog::debug('foo'))->toThrow(RuntimeException::class, 'Channel not set');
     });
@@ -133,6 +147,7 @@ describe('validate', function (): void {
         SuperlogSettings::setChannel('channel');
         SuperlogSettings::setApplication('');
         SuperlogSettings::setEnvironment('environment');
+        SuperlogSettings::setStream(fopen('php://memory', '+a'));
 
         expect(fn () => Superlog::debug('foo'))->toThrow(RuntimeException::class, 'Application not set');
     });
@@ -141,46 +156,97 @@ describe('validate', function (): void {
         SuperlogSettings::setChannel('channel');
         SuperlogSettings::setApplication('application');
         SuperlogSettings::setEnvironment('');
+        SuperlogSettings::setStream(fopen('php://memory', '+a'));
 
         expect(fn () => Superlog::debug('foo'))->toThrow(RuntimeException::class, 'Environment not set');
     });
 
-    it('not throw exception when channel, application and environment is not empty with critical level', function (): void {
-        SuperlogSettings::setChannel(fopen('php://memory', 'a+'));
+    it('should throw exception when stream is empty with critical level', function (): void {
+        SuperlogSettings::setChannel('channel');
         SuperlogSettings::setApplication('application');
         SuperlogSettings::setEnvironment('environment');
+        SuperlogSettings::setStream(null);
+
+        expect(fn () => Superlog::critical('foo'))->toThrow(RuntimeException::class, 'Stream not set');
+    });
+
+    it('should throw exception when stream is empty with error level', function (): void {
+        SuperlogSettings::setChannel('channel');
+        SuperlogSettings::setApplication('application');
+        SuperlogSettings::setEnvironment('environment');
+        SuperlogSettings::setStream(null);
+
+        expect(fn () => Superlog::error('foo'))->toThrow(RuntimeException::class, 'Stream not set');
+    });
+
+    it('should throw exception when stream is empty with warning level', function (): void {
+        SuperlogSettings::setChannel('channel');
+        SuperlogSettings::setApplication('application');
+        SuperlogSettings::setEnvironment('environment');
+        SuperlogSettings::setStream(null);
+
+        expect(fn () => Superlog::warning('foo'))->toThrow(RuntimeException::class, 'Stream not set');
+    });
+
+    it('should throw exception when stream is empty with info level', function (): void {
+        SuperlogSettings::setChannel('channel');
+        SuperlogSettings::setApplication('application');
+        SuperlogSettings::setEnvironment('environment');
+        SuperlogSettings::setStream(null);
+
+        expect(fn () => Superlog::info('foo'))->toThrow(RuntimeException::class, 'Stream not set');
+    });
+
+    it('should throw exception when stream is empty with debug level', function (): void {
+        SuperlogSettings::setChannel('channel');
+        SuperlogSettings::setApplication('application');
+        SuperlogSettings::setEnvironment('environment');
+        SuperlogSettings::setStream(null);
+
+        expect(fn () => Superlog::debug('foo'))->toThrow(RuntimeException::class, 'Stream not set');
+    });
+
+    it('not throw exception when channel, application, environment and stream is not empty with critical level', function (): void {
+        SuperlogSettings::setChannel('channel');
+        SuperlogSettings::setApplication('application');
+        SuperlogSettings::setEnvironment('environment');
+        SuperlogSettings::setStream(fopen('php://memory', '+a'));
 
         expect(fn () => Superlog::critical('foo'))->not->toThrow(RuntimeException::class);
     });
 
-    it('not throw exception when channel, application and environment is not empty with error level', function (): void {
-        SuperlogSettings::setChannel(fopen('php://memory', 'a+'));
+    it('not throw exception when channel, application, environment and stream is not empty with error level', function (): void {
+        SuperlogSettings::setChannel('channel');
         SuperlogSettings::setApplication('application');
         SuperlogSettings::setEnvironment('environment');
+        SuperlogSettings::setStream(fopen('php://memory', '+a'));
 
         expect(fn () => Superlog::error('foo'))->not->toThrow(RuntimeException::class);
     });
 
-    it('not throw exception when channel, application and environment is not empty with warning level', function (): void {
-        SuperlogSettings::setChannel(fopen('php://memory', 'a+'));
+    it('not throw exception when channel, application, environment and stream is not empty with warning level', function (): void {
+        SuperlogSettings::setChannel('channel');
         SuperlogSettings::setApplication('application');
         SuperlogSettings::setEnvironment('environment');
+        SuperlogSettings::setStream(fopen('php://memory', '+a'));
 
         expect(fn () => Superlog::warning('foo'))->not->toThrow(RuntimeException::class);
     });
 
-    it('not throw exception when channel, application and environment is not empty with info level', function (): void {
-        SuperlogSettings::setChannel(fopen('php://memory', 'a+'));
+    it('not throw exception when channel, application, environment and stream is not empty with info level', function (): void {
+        SuperlogSettings::setChannel('channel');
         SuperlogSettings::setApplication('application');
         SuperlogSettings::setEnvironment('environment');
+        SuperlogSettings::setStream(fopen('php://memory', '+a'));
 
         expect(fn () => Superlog::info('foo'))->not->toThrow(RuntimeException::class);
     });
 
-    it('not throw exception when channel, application and environment is not empty with debug level', function (): void {
-        SuperlogSettings::setChannel(fopen('php://memory', 'a+'));
+    it('not throw exception when channel, application, environment and stream is not empty with debug level', function (): void {
+        SuperlogSettings::setChannel('channel');
         SuperlogSettings::setApplication('application');
         SuperlogSettings::setEnvironment('environment');
+        SuperlogSettings::setStream(fopen('php://memory', '+a'));
 
         expect(fn () => Superlog::debug('foo'))->not->toThrow(RuntimeException::class);
     });
@@ -498,7 +564,7 @@ describe('default values', function () use ($logInMemory): void {
         $output = $logInMemory(fn () => Superlog::critical('foo'));
         $jsonOutput = $output['json_output'];
 
-        expect($jsonOutput['channel'])->toContain('Resource id');
+        expect($jsonOutput['channel'])->toContain('channel');
         expect($jsonOutput['application'])->toBe('application');
         expect($jsonOutput['environment'])->toBe('testing');
     });
@@ -507,7 +573,7 @@ describe('default values', function () use ($logInMemory): void {
         $output = $logInMemory(fn () => Superlog::error('foo'));
         $jsonOutput = $output['json_output'];
 
-        expect($jsonOutput['channel'])->toContain('Resource id');
+        expect($jsonOutput['channel'])->toContain('channel');
         expect($jsonOutput['application'])->toBe('application');
         expect($jsonOutput['environment'])->toBe('testing');
     });
@@ -516,7 +582,7 @@ describe('default values', function () use ($logInMemory): void {
         $output = $logInMemory(fn () => Superlog::warning('foo'));
         $jsonOutput = $output['json_output'];
 
-        expect($jsonOutput['channel'])->toContain('Resource id');
+        expect($jsonOutput['channel'])->toContain('channel');
         expect($jsonOutput['application'])->toBe('application');
         expect($jsonOutput['environment'])->toBe('testing');
     });
@@ -525,7 +591,7 @@ describe('default values', function () use ($logInMemory): void {
         $output = $logInMemory(fn () => Superlog::info('foo'));
         $jsonOutput = $output['json_output'];
 
-        expect($jsonOutput['channel'])->toContain('Resource id');
+        expect($jsonOutput['channel'])->toContain('channel');
         expect($jsonOutput['application'])->toBe('application');
         expect($jsonOutput['environment'])->toBe('testing');
     });
@@ -534,7 +600,7 @@ describe('default values', function () use ($logInMemory): void {
         $output = $logInMemory(fn () => Superlog::debug('foo'));
         $jsonOutput = $output['json_output'];
 
-        expect($jsonOutput['channel'])->toContain('Resource id');
+        expect($jsonOutput['channel'])->toContain('channel');
         expect($jsonOutput['application'])->toBe('application');
         expect($jsonOutput['environment'])->toBe('testing');
     });
