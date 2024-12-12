@@ -84,11 +84,10 @@ final class SuperlogData
             value: [
                 'timestamp' => $this->timestamp,
                 'level' => $this->level,
-                'channel' => "{$this->channel}",
+                'channel' => $this->channel,
                 'application' => $this->application,
                 'environment' => $this->environment,
                 'message' => json_encode(value: $this->message, depth: 1024),
-                'log_id' => $this->logId,
                 'tags' => $tags,
             ],
             depth: 1024

@@ -257,35 +257,35 @@ describe('rfc', function () use ($logInMemory): void {
         $output = $logInMemory(fn () => Superlog::critical('foo'));
         $jsonOutput = $output['json_output'];
 
-        expect($jsonOutput)->toHaveKeys(['timestamp', 'level', 'channel', 'application', 'environment', 'message', 'log_id', 'tags']);
+        expect($jsonOutput)->toHaveKeys(['timestamp', 'level', 'channel', 'application', 'environment', 'message', 'tags']);
     });
 
     it('should be rfc compliant with level error', function () use ($logInMemory): void {
         $output = $logInMemory(fn () => Superlog::error('foo'));
         $jsonOutput = $output['json_output'];
 
-        expect($jsonOutput)->toHaveKeys(['timestamp', 'level', 'channel', 'application', 'environment', 'message', 'log_id', 'tags']);
+        expect($jsonOutput)->toHaveKeys(['timestamp', 'level', 'channel', 'application', 'environment', 'message', 'tags']);
     });
 
     it('should be rfc compliant with level warning', function () use ($logInMemory): void {
         $output = $logInMemory(fn () => Superlog::warning('foo'));
         $jsonOutput = $output['json_output'];
 
-        expect($jsonOutput)->toHaveKeys(['timestamp', 'level', 'channel', 'application', 'environment', 'message', 'log_id', 'tags']);
+        expect($jsonOutput)->toHaveKeys(['timestamp', 'level', 'channel', 'application', 'environment', 'message', 'tags']);
     });
 
     it('should be rfc compliant with level info', function () use ($logInMemory): void {
         $output = $logInMemory(fn () => Superlog::info('foo'));
         $jsonOutput = $output['json_output'];
 
-        expect($jsonOutput)->toHaveKeys(['timestamp', 'level', 'channel', 'application', 'environment', 'message', 'log_id', 'tags']);
+        expect($jsonOutput)->toHaveKeys(['timestamp', 'level', 'channel', 'application', 'environment', 'message', 'tags']);
     });
 
     it('should be rfc compliant with level debug', function () use ($logInMemory): void {
         $output = $logInMemory(fn () => Superlog::debug('foo'));
         $jsonOutput = $output['json_output'];
 
-        expect($jsonOutput)->toHaveKeys(['timestamp', 'level', 'channel', 'application', 'environment', 'message', 'log_id', 'tags']);
+        expect($jsonOutput)->toHaveKeys(['timestamp', 'level', 'channel', 'application', 'environment', 'message', 'tags']);
     });
 });
 
@@ -326,45 +326,50 @@ describe('log id', function () use ($logInMemory): void {
         $output = $logInMemory(fn () => Superlog::critical('foo'));
         $jsonOutput = $output['json_output'];
         $tags = $jsonOutput['tags'];
+        $logId = explode(':', $tags[0])[1];
 
-        expect($jsonOutput['log_id'])->toBeUuid();
-        expect($tags)->toContain('log_id:'.$jsonOutput['log_id']);
+        expect($logId)->toBeUuid();
+        expect($tags)->toContain('log_id:'.$logId);
     });
 
     it('logs with error level should have a log id', function () use ($logInMemory): void {
         $output = $logInMemory(fn () => Superlog::error('foo'));
         $jsonOutput = $output['json_output'];
         $tags = $jsonOutput['tags'];
+        $logId = explode(':', $tags[0])[1];
 
-        expect($jsonOutput['log_id'])->toBeUuid();
-        expect($tags)->toContain('log_id:'.$jsonOutput['log_id']);
+        expect($logId)->toBeUuid();
+        expect($tags)->toContain('log_id:'.$logId);
     });
 
     it('logs with warning level should have a log id', function () use ($logInMemory): void {
         $output = $logInMemory(fn () => Superlog::warning('foo'));
         $jsonOutput = $output['json_output'];
         $tags = $jsonOutput['tags'];
+        $logId = explode(':', $tags[0])[1];
 
-        expect($jsonOutput['log_id'])->toBeUuid();
-        expect($tags)->toContain('log_id:'.$jsonOutput['log_id']);
+        expect($logId)->toBeUuid();
+        expect($tags)->toContain('log_id:'.$logId);
     });
 
     it('logs with info level should have a log id', function () use ($logInMemory): void {
         $output = $logInMemory(fn () => Superlog::info('foo'));
         $jsonOutput = $output['json_output'];
         $tags = $jsonOutput['tags'];
+        $logId = explode(':', $tags[0])[1];
 
-        expect($jsonOutput['log_id'])->toBeUuid();
-        expect($tags)->toContain('log_id:'.$jsonOutput['log_id']);
+        expect($logId)->toBeUuid();
+        expect($tags)->toContain('log_id:'.$logId);
     });
 
     it('logs with debug level should have a log id', function () use ($logInMemory): void {
         $output = $logInMemory(fn () => Superlog::debug('foo'));
         $jsonOutput = $output['json_output'];
         $tags = $jsonOutput['tags'];
+        $logId = explode(':', $tags[0])[1];
 
-        expect($jsonOutput['log_id'])->toBeUuid();
-        expect($tags)->toContain('log_id:'.$jsonOutput['log_id']);
+        expect($logId)->toBeUuid();
+        expect($tags)->toContain('log_id:'.$logId);
     });
 });
 
@@ -938,34 +943,34 @@ describe('raw', function () use ($logInMemory): void {
         $output = $logInMemory(fn () => Superlog::raw('critical', 'foo'));
         $jsonOutput = $output['json_output'];
 
-        expect($jsonOutput)->toHaveKeys(['timestamp', 'level', 'channel', 'application', 'environment', 'message', 'log_id', 'tags']);
+        expect($jsonOutput)->toHaveKeys(['timestamp', 'level', 'channel', 'application', 'environment', 'message', 'tags']);
     });
 
     it('logs with error level', function () use ($logInMemory): void {
         $output = $logInMemory(fn () => Superlog::raw('error', 'foo'));
         $jsonOutput = $output['json_output'];
 
-        expect($jsonOutput)->toHaveKeys(['timestamp', 'level', 'channel', 'application', 'environment', 'message', 'log_id', 'tags']);
+        expect($jsonOutput)->toHaveKeys(['timestamp', 'level', 'channel', 'application', 'environment', 'message', 'tags']);
     });
 
     it('logs with warning level', function () use ($logInMemory): void {
         $output = $logInMemory(fn () => Superlog::raw('warning', 'foo'));
         $jsonOutput = $output['json_output'];
 
-        expect($jsonOutput)->toHaveKeys(['timestamp', 'level', 'channel', 'application', 'environment', 'message', 'log_id', 'tags']);
+        expect($jsonOutput)->toHaveKeys(['timestamp', 'level', 'channel', 'application', 'environment', 'message', 'tags']);
     });
 
     it('logs with info level', function () use ($logInMemory): void {
         $output = $logInMemory(fn () => Superlog::raw('info', 'foo'));
         $jsonOutput = $output['json_output'];
 
-        expect($jsonOutput)->toHaveKeys(['timestamp', 'level', 'channel', 'application', 'environment', 'message', 'log_id', 'tags']);
+        expect($jsonOutput)->toHaveKeys(['timestamp', 'level', 'channel', 'application', 'environment', 'message', 'tags']);
     });
 
     it('logs with debug level', function () use ($logInMemory): void {
         $output = $logInMemory(fn () => Superlog::raw('debug', 'foo'));
         $jsonOutput = $output['json_output'];
 
-        expect($jsonOutput)->toHaveKeys(['timestamp', 'level', 'channel', 'application', 'environment', 'message', 'log_id', 'tags']);
+        expect($jsonOutput)->toHaveKeys(['timestamp', 'level', 'channel', 'application', 'environment', 'message', 'tags']);
     });
 });
