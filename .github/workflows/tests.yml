@@ -1,6 +1,6 @@
 name: Tests
 
-on: ["push", "pull_request"]
+on: pull_request
 
 jobs:
   ci:
@@ -40,5 +40,8 @@ jobs:
       - name: Install Composer dependencies
         run: composer update --${{ matrix.dependency-version }} --no-interaction --prefer-dist
 
+      - name: Refactor
+        run: composer run test:refactor
+
       - name: Integration Tests
-        run: php ./vendor/bin/pest
+        run: composer run test:automated
