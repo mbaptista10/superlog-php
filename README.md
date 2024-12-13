@@ -65,7 +65,7 @@ A ideia desta lib é usarmos o formato JSON para os logs, sendo assim foi estabe
   - application: (my-app)
   - message: string | json string
   - log_id: string (uuid-v4)
-  - tags: ['log_id:{uuid-v4}', 'tag1', 'tag2']
+  - tags: json (key-value) {"foo":"bar", "baz":"qux"}
 
 ### Levels
 O Superlog suporta os níveis `debug`, `info`, `warning`, `error` e `critical`. Você pode alterar o nível através da classe `Superlog\SuperlogSettings`. Se o nível setado for `error` apenas os levels `error`, `critical` serão exibidos, se for `warning` apenas os levels `warning`, `error` e `critical` serão exibidos e assim por diante.
