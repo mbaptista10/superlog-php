@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Superlog\Data;
 
+use DateTime;
+use DateTimeZone;
 use Ramsey\Uuid\Uuid;
 
 final class SuperlogData
@@ -33,7 +35,7 @@ final class SuperlogData
     public function __construct(
         /** @var string|array<mixed> */
         string|array $message,
-        /** @var array<int, string> */
+        /** @var array<mixed, string> */
         public readonly array $tags,
         public readonly string $level,
         public readonly string $channel,
@@ -41,7 +43,8 @@ final class SuperlogData
         public readonly string $environment,
     ) {
         $this->logId = Uuid::uuid4()->toString();
-        $this->timestamp = date(DATE_ATOM);
+        $now = new DateTime('now', new DateTimeZone('UTC'));
+        $this->timestamp = $now->format(DATE_RFC3339_EXTENDED);
         $this->message = $this->formatMessage($message);
     }
 
@@ -49,7 +52,7 @@ final class SuperlogData
      * The factory method of this DTO
      *
      * @param  string|array<mixed>  $message
-     * @param  array<int, string>  $tags
+     * @param  array<mixed, string>  $tags
      * @param  string|resource  $channel
      */
     public static function from(
@@ -77,18 +80,17 @@ final class SuperlogData
     {
         $tags = [
             ...$this->tags,
-            'log_id:'.$this->logId,
+            'log_id' => $this->logId,
         ];
 
         return json_encode(
             value: [
                 'timestamp' => $this->timestamp,
                 'level' => $this->level,
-                'channel' => "{$this->channel}",
+                'channel' => $this->channel,
                 'application' => $this->application,
                 'environment' => $this->environment,
-                'message' => $this->message,
-                'log_id' => $this->logId,
+                'message' => json_encode(value: $this->message, depth: 1024),
                 'tags' => $tags,
             ],
             depth: 1024
