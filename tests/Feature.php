@@ -326,50 +326,50 @@ describe('log id', function () use ($logInMemory): void {
         $output = $logInMemory(fn () => Superlog::critical('foo'));
         $jsonOutput = $output['json_output'];
         $tags = $jsonOutput['tags'];
-        $logId = explode(':', $tags[0])[1];
+        $logId = current($tags);
 
         expect($logId)->toBeUuid();
-        expect($tags)->toContain('log_id:'.$logId);
+        expect($tags)->toMatchArray(['log_id' => $logId]);
     });
 
     it('logs with error level should have a log id', function () use ($logInMemory): void {
         $output = $logInMemory(fn () => Superlog::error('foo'));
         $jsonOutput = $output['json_output'];
         $tags = $jsonOutput['tags'];
-        $logId = explode(':', $tags[0])[1];
+        $logId = current($tags);
 
         expect($logId)->toBeUuid();
-        expect($tags)->toContain('log_id:'.$logId);
+        expect($tags)->toMatchArray(['log_id' => $logId]);
     });
 
     it('logs with warning level should have a log id', function () use ($logInMemory): void {
         $output = $logInMemory(fn () => Superlog::warning('foo'));
         $jsonOutput = $output['json_output'];
         $tags = $jsonOutput['tags'];
-        $logId = explode(':', $tags[0])[1];
+        $logId = current($tags);
 
         expect($logId)->toBeUuid();
-        expect($tags)->toContain('log_id:'.$logId);
+        expect($tags)->toMatchArray(['log_id' => $logId]);
     });
 
     it('logs with info level should have a log id', function () use ($logInMemory): void {
         $output = $logInMemory(fn () => Superlog::info('foo'));
         $jsonOutput = $output['json_output'];
         $tags = $jsonOutput['tags'];
-        $logId = explode(':', $tags[0])[1];
+        $logId = current($tags);
 
         expect($logId)->toBeUuid();
-        expect($tags)->toContain('log_id:'.$logId);
+        expect($tags)->toMatchArray(['log_id' => $logId]);
     });
 
     it('logs with debug level should have a log id', function () use ($logInMemory): void {
         $output = $logInMemory(fn () => Superlog::debug('foo'));
         $jsonOutput = $output['json_output'];
         $tags = $jsonOutput['tags'];
-        $logId = explode(':', $tags[0])[1];
+        $logId = current($tags);
 
         expect($logId)->toBeUuid();
-        expect($tags)->toContain('log_id:'.$logId);
+        expect($tags)->toMatchArray(['log_id' => $logId]);
     });
 });
 
@@ -421,44 +421,44 @@ describe('log message', function () use ($logInMemory): void {
 });
 
 describe('log tags', function () use ($logInMemory): void {
-    it('logs with critical level should have a log id', function () use ($logInMemory): void {
-        $output = $logInMemory(fn () => Superlog::critical('foo', ['foo', 'bar']));
+    it('logs with critical level should have tags', function () use ($logInMemory): void {
+        $output = $logInMemory(fn () => Superlog::critical('foo', ['foo' => 'bar', 'baz' => 'qux']));
         $jsonOutput = $output['json_output'];
         $tags = $jsonOutput['tags'];
 
-        expect($tags)->toMatchArray(['foo', 'bar']);
+        expect($tags)->toMatchArray(['foo' => 'bar', 'baz' => 'qux']);
     });
 
-    it('logs with error level should have a log id', function () use ($logInMemory): void {
-        $output = $logInMemory(fn () => Superlog::error('foo', ['foo', 'bar']));
+    it('logs with error level should have tags', function () use ($logInMemory): void {
+        $output = $logInMemory(fn () => Superlog::critical('foo', ['foo' => 'bar', 'baz' => 'qux']));
         $jsonOutput = $output['json_output'];
         $tags = $jsonOutput['tags'];
 
-        expect($tags)->toMatchArray(['foo', 'bar']);
+        expect($tags)->toMatchArray(['foo' => 'bar', 'baz' => 'qux']);
     });
 
-    it('logs with warning level should have a log id', function () use ($logInMemory): void {
-        $output = $logInMemory(fn () => Superlog::warning('foo', ['foo', 'bar']));
+    it('logs with warning level should have tags', function () use ($logInMemory): void {
+        $output = $logInMemory(fn () => Superlog::critical('foo', ['foo' => 'bar', 'baz' => 'qux']));
         $jsonOutput = $output['json_output'];
         $tags = $jsonOutput['tags'];
 
-        expect($tags)->toMatchArray(['foo', 'bar']);
+        expect($tags)->toMatchArray(['foo' => 'bar', 'baz' => 'qux']);
     });
 
-    it('logs with info level should have a log id', function () use ($logInMemory): void {
-        $output = $logInMemory(fn () => Superlog::info('foo', ['foo', 'bar']));
+    it('logs with info level should have tags', function () use ($logInMemory): void {
+        $output = $logInMemory(fn () => Superlog::critical('foo', ['foo' => 'bar', 'baz' => 'qux']));
         $jsonOutput = $output['json_output'];
         $tags = $jsonOutput['tags'];
 
-        expect($tags)->toMatchArray(['foo', 'bar']);
+        expect($tags)->toMatchArray(['foo' => 'bar', 'baz' => 'qux']);
     });
 
-    it('logs with debug level should have a log id', function () use ($logInMemory): void {
-        $output = $logInMemory(fn () => Superlog::debug('foo', ['foo', 'bar']));
+    it('logs with debug level should have tags', function () use ($logInMemory): void {
+        $output = $logInMemory(fn () => Superlog::critical('foo', ['foo' => 'bar', 'baz' => 'qux']));
         $jsonOutput = $output['json_output'];
         $tags = $jsonOutput['tags'];
 
-        expect($tags)->toMatchArray(['foo', 'bar']);
+        expect($tags)->toMatchArray(['foo' => 'bar', 'baz' => 'qux']);
     });
 });
 
