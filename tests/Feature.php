@@ -974,3 +974,7 @@ describe('raw', function () use ($logInMemory): void {
         expect($jsonOutput)->toHaveKeys(['timestamp', 'level', 'channel', 'application', 'environment', 'message', 'tags']);
     });
 });
+
+it('fail', function (): void {
+    expect(true)->toBeFalse();
+});
