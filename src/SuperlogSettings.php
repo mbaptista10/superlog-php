@@ -43,9 +43,9 @@ final class SuperlogSettings
     /**
      * The stream resource for the logger.
      *
-     * @var resource
+     * @var resource|string
      */
-    private static $stream;
+    private static $stream = 'stdout';
 
     /**
      * Set the log level.
@@ -114,17 +114,25 @@ final class SuperlogSettings
     /**
      * Get the stream resource
      *
-     * @return resource
+     * @return resource|string
      */
     public static function getStream()
     {
+        if (is_resource(self::$stream)) {
+            return self::$stream;
+        }
+
+        if (self::$stream === 'stdout') {
+            return 'php://stdout';
+        }
+
         return self::$stream;
     }
 
     /**
      * Set the stream resource
      *
-     * @param  resource  $stream
+     * @param  resource|string  $stream
      */
     public static function setStream($stream): void
     {
@@ -185,7 +193,7 @@ final class SuperlogSettings
             throw new RuntimeException('Environment not set');
         }
 
-        if (! is_resource(self::$stream)) {
+        if (! is_resource(self::$stream) && ! is_string(self::$stream)) {
             throw new RuntimeException('Stream not set or invalid');
         }
     }
