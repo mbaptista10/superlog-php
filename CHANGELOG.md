@@ -4,6 +4,16 @@ Todas as alterações relevantes para este projeto serão documentadas neste arq
 
 O formato segue o padrão [Keep a Changelog](http://keepachangelog.com/) e este projeto adere a [Versionamento Semântico](http://semver.org/).
 
+## [1.4.0] - 2024-12-15
+### Adicionado
+- **Suporte para logging em stdout e streams personalizados**:
+  - Modificada a classe `SuperlogSettings` para aceitar `stdout` ou uma string como stream.
+  - Atualizada a lógica de `getStream` para lidar com streams personalizados e `stdout`.
+  - Adicionados testes cobrindo cenários de logging em `stdout` e recursos personalizados.
+  - Atualizado o `.gitignore` para incluir arquivos relacionados a streams. (#e6e6455)
+
+---
+
 ## [1.3.0] - 2024-12-13
 ### Adicionado
 - **Cobertura de código no workflow de testes**:
