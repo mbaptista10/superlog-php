@@ -974,3 +974,97 @@ describe('raw', function () use ($logInMemory): void {
         expect($jsonOutput)->toHaveKeys(['timestamp', 'level', 'channel', 'application', 'environment', 'message', 'tags']);
     });
 });
+
+describe('log in stdout', function (): void {
+    it('logs with critical level', function (): void {
+        SuperlogSettings::setApplication('application');
+        SuperlogSettings::setEnvironment('testing');
+        SuperlogSettings::setChannel('channel');
+        SuperlogSettings::setStream('stdout');
+
+        expect(fn () => Superlog::critical('foo'))->not->toThrow(Exception::class);
+    });
+
+    it('logs with error level', function (): void {
+        SuperlogSettings::setApplication('application');
+        SuperlogSettings::setEnvironment('testing');
+        SuperlogSettings::setChannel('channel');
+        SuperlogSettings::setStream('stdout');
+
+        expect(fn () => Superlog::error('foo'))->not->toThrow(Exception::class);
+    });
+
+    it('logs with warning level', function (): void {
+        SuperlogSettings::setApplication('application');
+        SuperlogSettings::setEnvironment('testing');
+        SuperlogSettings::setChannel('channel');
+        SuperlogSettings::setStream('stdout');
+
+        expect(fn () => Superlog::warning('foo'))->not->toThrow(Exception::class);
+    });
+
+    it('logs with info level', function (): void {
+        SuperlogSettings::setApplication('application');
+        SuperlogSettings::setEnvironment('testing');
+        SuperlogSettings::setChannel('channel');
+        SuperlogSettings::setStream('stdout');
+
+        expect(fn () => Superlog::info('foo'))->not->toThrow(Exception::class);
+    });
+
+    it('logs with debug level', function (): void {
+        SuperlogSettings::setApplication('application');
+        SuperlogSettings::setEnvironment('testing');
+        SuperlogSettings::setChannel('channel');
+        SuperlogSettings::setStream('stdout');
+
+        expect(fn () => Superlog::debug('foo'))->not->toThrow(Exception::class);
+    });
+});
+
+describe('log in any-stream', function (): void {
+    it('logs with critical level', function (): void {
+        SuperlogSettings::setApplication('application');
+        SuperlogSettings::setEnvironment('testing');
+        SuperlogSettings::setChannel('channel');
+        SuperlogSettings::setStream('any-stream');
+
+        expect(fn () => Superlog::critical('foo'))->not->toThrow(Exception::class);
+    });
+
+    it('logs with error level', function (): void {
+        SuperlogSettings::setApplication('application');
+        SuperlogSettings::setEnvironment('testing');
+        SuperlogSettings::setChannel('channel');
+        SuperlogSettings::setStream('any-stream');
+
+        expect(fn () => Superlog::error('foo'))->not->toThrow(Exception::class);
+    });
+
+    it('logs with warning level', function (): void {
+        SuperlogSettings::setApplication('application');
+        SuperlogSettings::setEnvironment('testing');
+        SuperlogSettings::setChannel('channel');
+        SuperlogSettings::setStream('any-stream');
+
+        expect(fn () => Superlog::warning('foo'))->not->toThrow(Exception::class);
+    });
+
+    it('logs with info level', function (): void {
+        SuperlogSettings::setApplication('application');
+        SuperlogSettings::setEnvironment('testing');
+        SuperlogSettings::setChannel('channel');
+        SuperlogSettings::setStream('any-stream');
+
+        expect(fn () => Superlog::info('foo'))->not->toThrow(Exception::class);
+    });
+
+    it('logs with debug level', function (): void {
+        SuperlogSettings::setApplication('application');
+        SuperlogSettings::setEnvironment('testing');
+        SuperlogSettings::setChannel('channel');
+        SuperlogSettings::setStream('any-stream');
+
+        expect(fn () => Superlog::debug('foo'))->not->toThrow(Exception::class);
+    });
+});
