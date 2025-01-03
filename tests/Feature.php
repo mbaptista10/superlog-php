@@ -1068,3 +1068,65 @@ describe('log in any-stream', function (): void {
         expect(fn () => Superlog::debug('foo'))->not->toThrow(Exception::class);
     });
 });
+
+describe('disabled', function (): void {
+    it('should not log when disabled with critical level', function (): void {
+        SuperlogSettings::setApplication('application');
+        SuperlogSettings::setEnvironment('testing');
+        SuperlogSettings::setChannel('channel');
+        SuperlogSettings::setStream('any-stream');
+        SuperlogSettings::disableWhen(true);
+
+        expect(fn () => Superlog::critical('foo'))->not->toThrow(Exception::class);
+    });
+
+    it('should not log when disabled with error level', function (): void {
+        SuperlogSettings::setApplication('application');
+        SuperlogSettings::setEnvironment('testing');
+        SuperlogSettings::setChannel('channel');
+        SuperlogSettings::setStream('any-stream');
+        SuperlogSettings::disableWhen(true);
+
+        expect(fn () => Superlog::error('foo'))->not->toThrow(Exception::class);
+    });
+
+    it('should not log when disabled with warning level', function (): void {
+        SuperlogSettings::setApplication('application');
+        SuperlogSettings::setEnvironment('testing');
+        SuperlogSettings::setChannel('channel');
+        SuperlogSettings::setStream('any-stream');
+        SuperlogSettings::disableWhen(true);
+
+        expect(fn () => Superlog::warning('foo'))->not->toThrow(Exception::class);
+    });
+
+    it('should not log when disabled with info level', function (): void {
+        SuperlogSettings::setApplication('application');
+        SuperlogSettings::setEnvironment('testing');
+        SuperlogSettings::setChannel('channel');
+        SuperlogSettings::setStream('any-stream');
+        SuperlogSettings::disableWhen(true);
+
+        expect(fn () => Superlog::info('foo'))->not->toThrow(Exception::class);
+    });
+
+    it('should not log when disabled with debug level', function (): void {
+        SuperlogSettings::setApplication('application');
+        SuperlogSettings::setEnvironment('testing');
+        SuperlogSettings::setChannel('channel');
+        SuperlogSettings::setStream('any-stream');
+        SuperlogSettings::disableWhen(true);
+
+        expect(fn () => Superlog::debug('foo'))->not->toThrow(Exception::class);
+    });
+
+    it('should not log when disabled with raw method', function (): void {
+        SuperlogSettings::setApplication('application');
+        SuperlogSettings::setEnvironment('testing');
+        SuperlogSettings::setChannel('channel');
+        SuperlogSettings::setStream('any-stream');
+        SuperlogSettings::disableWhen(true);
+
+        expect(fn () => Superlog::raw('info', 'foo'))->not->toThrow(Exception::class);
+    });
+});

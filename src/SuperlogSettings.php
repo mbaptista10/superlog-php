@@ -34,6 +34,11 @@ final class SuperlogSettings
     private static string $environment = '';
 
     /**
+     * Indicates if the logger is disabled.
+     */
+    private static bool $disabled = false;
+
+    /**
      * Observers for the logger.
      *
      * @var array<LoggerObserverContract>
@@ -214,5 +219,21 @@ final class SuperlogSettings
     public static function getObservers(): array
     {
         return self::$observers;
+    }
+
+    /**
+     * Disable the logger when the give expression is true
+     */
+    public static function disableWhen(bool $disabled): void
+    {
+        self::$disabled = $disabled;
+    }
+
+    /**
+     * Check if the logger is disabled.
+     */
+    public static function isDisabled(): bool
+    {
+        return self::$disabled;
     }
 }
