@@ -4,6 +4,15 @@ Todas as alterações relevantes para este projeto serão documentadas neste arq
 
 O formato segue o padrão [Keep a Changelog](http://keepachangelog.com/) e este projeto adere a [Versionamento Semântico](http://semver.org/).
 
+## [1.5.0] - 2025-01-03
+### Adicionado
+- **Opção para desabilitar o logger**:
+  - Implementado o método `disableWhen` na classe `SuperlogSettings` para desativar o logger condicionalmente.
+  - Adicionada verificação `isDisabled` em todos os métodos de logging para garantir que logs não sejam gerados quando o logger estiver desabilitado.
+  - Incluídos testes para validar o comportamento do logger desabilitado. (#0a87e3e)
+
+---
+
 ## [1.4.0] - 2024-12-15
 ### Adicionado
 - **Suporte para logging em stdout e streams personalizados**:
