@@ -41,6 +41,10 @@ class Superlog implements LoggerContract
      */
     public static function critical(string|array $message, array $tags = []): void
     {
+        if (SuperlogSettings::isDisabled()) {
+            return;
+        }
+
         $logData = SuperlogData::from(
             message: $message,
             tags: $tags,
@@ -58,6 +62,10 @@ class Superlog implements LoggerContract
      */
     public static function error(string|array $message, array $tags = []): void
     {
+        if (SuperlogSettings::isDisabled()) {
+            return;
+        }
+
         $allowedLevels = ['debug', 'info', 'warning', __FUNCTION__];
         if (! in_array(SuperlogSettings::getLogLevel(), $allowedLevels)) {
             return;
@@ -80,6 +88,10 @@ class Superlog implements LoggerContract
      */
     public static function warning(string|array $message, array $tags = []): void
     {
+        if (SuperlogSettings::isDisabled()) {
+            return;
+        }
+
         $allowedLevels = ['debug', 'info', __FUNCTION__];
         if (! in_array(SuperlogSettings::getLogLevel(), $allowedLevels)) {
             return;
@@ -102,6 +114,10 @@ class Superlog implements LoggerContract
      */
     public static function info(string|array $message, array $tags = []): void
     {
+        if (SuperlogSettings::isDisabled()) {
+            return;
+        }
+
         $allowedLevels = ['debug', __FUNCTION__];
         if (! in_array(SuperlogSettings::getLogLevel(), $allowedLevels)) {
             return;
@@ -124,6 +140,10 @@ class Superlog implements LoggerContract
      */
     public static function debug(string|array $message, array $tags = []): void
     {
+        if (SuperlogSettings::isDisabled()) {
+            return;
+        }
+
         $allowedLevels = [__FUNCTION__];
         if (! in_array(SuperlogSettings::getLogLevel(), $allowedLevels)) {
             return;
@@ -146,6 +166,10 @@ class Superlog implements LoggerContract
      */
     public static function raw(string $level, string|array $message, array $tags = []): void
     {
+        if (SuperlogSettings::isDisabled()) {
+            return;
+        }
+
         match ($level) {
             'error' => self::error($message, $tags),
             'warning' => self::warning($message, $tags),
