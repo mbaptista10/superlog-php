@@ -24,6 +24,7 @@ class Superlog implements LoggerContract
         }
 
         match ($logData->level) {
+            'alert' => SuperlogSettings::getNewLogger()->alert((string) $logData->toJson()),
             'error' => SuperlogSettings::getNewLogger()->error((string) $logData->toJson()),
             'warning' => SuperlogSettings::getNewLogger()->warning((string) $logData->toJson()),
             'info' => SuperlogSettings::getNewLogger()->info((string) $logData->toJson()),
@@ -39,9 +40,35 @@ class Superlog implements LoggerContract
     /**
      * {@inheritdoc}
      */
+    public static function alert(string|array $message, array $tags = []): void
+    {
+        if (SuperlogSettings::isDisabled()) {
+            return;
+        }
+
+        $logData = SuperlogData::from(
+            message: $message,
+            tags: $tags,
+            level: __FUNCTION__,
+            channel: SuperlogSettings::getChannel(),
+            application: SuperlogSettings::getApplication(),
+            environment: SuperlogSettings::getEnvironment()
+        );
+
+        (new self)->log($logData);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public static function critical(string|array $message, array $tags = []): void
     {
         if (SuperlogSettings::isDisabled()) {
+            return;
+        }
+
+        $allowedLevels = ['debug', 'info', 'warning', 'error', __FUNCTION__];
+        if (! in_array(SuperlogSettings::getLogLevel(), $allowedLevels)) {
             return;
         }
 
@@ -171,6 +198,7 @@ class Superlog implements LoggerContract
         }
 
         match ($level) {
+            'alert' => self::alert($message, $tags),
             'error' => self::error($message, $tags),
             'warning' => self::warning($message, $tags),
             'info' => self::info($message, $tags),

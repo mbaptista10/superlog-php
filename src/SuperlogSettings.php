@@ -170,6 +170,7 @@ final class SuperlogSettings
             'info' => Level::Info,
             'warning' => Level::Warning,
             'error' => Level::Error,
+            'alert' => Level::Alert,
             default => Level::Critical,
         };
 
