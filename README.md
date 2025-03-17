@@ -46,11 +46,6 @@ use Superlog\SuperlogSettings;
 require __DIR__.'/vendor/autoload.php';
 
 SuperlogSettings::setLogLevel('warning');
-/**
- * Channel são todos os tipos aceitos pelo `Monolog\Handler\StreamHandler`. Por exemplo:
- * php://stdout, php://stderr, php://php://memory, file:///path/to/file.log, etc.
- **/
-SuperlogSettings::setChannel('php://stdout');
 SuperlogSettings::setApplication('app');
 SuperlogSettings::setEnvironment('production');
 ```
@@ -60,7 +55,6 @@ A ideia desta lib é usarmos o formato JSON para os logs, sendo assim foi estabe
 - Campos que compõem:
   - timestamp: UTC (YYYY-MM-DDTHH:MM:SSZ)
   - level: critical / error / warning / info / debug
-  - channel: php://stdout
   - environment: local / testing / staging / production / sandbox
   - application: (my-app)
   - message: string | json string

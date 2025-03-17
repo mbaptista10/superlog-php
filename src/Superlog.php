@@ -50,7 +50,6 @@ class Superlog implements LoggerContract
             message: $message,
             tags: $tags,
             level: __FUNCTION__,
-            channel: SuperlogSettings::getChannel(),
             application: SuperlogSettings::getApplication(),
             environment: SuperlogSettings::getEnvironment()
         );
@@ -76,7 +75,6 @@ class Superlog implements LoggerContract
             message: $message,
             tags: $tags,
             level: __FUNCTION__,
-            channel: SuperlogSettings::getChannel(),
             application: SuperlogSettings::getApplication(),
             environment: SuperlogSettings::getEnvironment()
         );
@@ -102,7 +100,6 @@ class Superlog implements LoggerContract
             message: $message,
             tags: $tags,
             level: __FUNCTION__,
-            channel: SuperlogSettings::getChannel(),
             application: SuperlogSettings::getApplication(),
             environment: SuperlogSettings::getEnvironment()
         );
@@ -128,7 +125,6 @@ class Superlog implements LoggerContract
             message: $message,
             tags: $tags,
             level: __FUNCTION__,
-            channel: SuperlogSettings::getChannel(),
             application: SuperlogSettings::getApplication(),
             environment: SuperlogSettings::getEnvironment()
         );
@@ -154,7 +150,6 @@ class Superlog implements LoggerContract
             message: $message,
             tags: $tags,
             level: __FUNCTION__,
-            channel: SuperlogSettings::getChannel(),
             application: SuperlogSettings::getApplication(),
             environment: SuperlogSettings::getEnvironment()
         );
@@ -180,7 +175,6 @@ class Superlog implements LoggerContract
             message: $message,
             tags: $tags,
             level: __FUNCTION__,
-            channel: SuperlogSettings::getChannel(),
             application: SuperlogSettings::getApplication(),
             environment: SuperlogSettings::getEnvironment()
         );

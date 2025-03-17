@@ -7,7 +7,6 @@ use Superlog\SuperlogSettings;
 
 $logInMemory = function ($logCallback): array {
     $stream = fopen('php://memory', 'a+');
-    SuperlogSettings::setChannel('channel');
     SuperlogSettings::setEnvironment('testing');
     SuperlogSettings::setApplication('application');
     SuperlogSettings::setStream($stream);
@@ -25,9 +24,8 @@ $logInMemory = function ($logCallback): array {
     ];
 };
 
-describe('validate', function () use($logInMemory): void {
+describe('validate', function () use ($logInMemory): void {
     it('should throw exception when application is empty with alert level', function (): void {
-        SuperlogSettings::setChannel('channel');
         SuperlogSettings::setApplication('');
         SuperlogSettings::setEnvironment('environment');
         SuperlogSettings::setStream(fopen('php://memory', '+a'));
@@ -36,7 +34,6 @@ describe('validate', function () use($logInMemory): void {
     });
 
     it('should throw exception when environment is empty with alert level', function (): void {
-        SuperlogSettings::setChannel('channel');
         SuperlogSettings::setApplication('application');
         SuperlogSettings::setEnvironment('');
         SuperlogSettings::setStream(fopen('php://memory', '+a'));
@@ -44,17 +41,7 @@ describe('validate', function () use($logInMemory): void {
         expect(fn () => Superlog::alert('foo'))->toThrow(RuntimeException::class, 'Environment not set');
     });
 
-    it('should throw exception when channel is empty with critical level', function (): void {
-        SuperlogSettings::setChannel('');
-        SuperlogSettings::setApplication('application');
-        SuperlogSettings::setEnvironment('environment');
-        SuperlogSettings::setStream(fopen('php://memory', '+a'));
-
-        expect(fn () => Superlog::critical('foo'))->toThrow(RuntimeException::class, 'Channel not set');
-    });
-
     it('should throw exception when application is empty with critical level', function (): void {
-        SuperlogSettings::setChannel('channel');
         SuperlogSettings::setApplication('');
         SuperlogSettings::setEnvironment('environment');
         SuperlogSettings::setStream(fopen('php://memory', '+a'));
@@ -63,7 +50,6 @@ describe('validate', function () use($logInMemory): void {
     });
 
     it('should throw exception when environment is empty with critical level', function (): void {
-        SuperlogSettings::setChannel('channel');
         SuperlogSettings::setApplication('application');
         SuperlogSettings::setEnvironment('');
         SuperlogSettings::setStream(fopen('php://memory', '+a'));
@@ -71,17 +57,7 @@ describe('validate', function () use($logInMemory): void {
         expect(fn () => Superlog::critical('foo'))->toThrow(RuntimeException::class, 'Environment not set');
     });
 
-    it('should throw exception when channel is empty with error level', function (): void {
-        SuperlogSettings::setChannel('');
-        SuperlogSettings::setApplication('application');
-        SuperlogSettings::setEnvironment('environment');
-        SuperlogSettings::setStream(fopen('php://memory', '+a'));
-
-        expect(fn () => Superlog::error('foo'))->toThrow(RuntimeException::class, 'Channel not set');
-    });
-
     it('should throw exception when application is empty with error level', function (): void {
-        SuperlogSettings::setChannel('channel');
         SuperlogSettings::setApplication('');
         SuperlogSettings::setEnvironment('environment');
         SuperlogSettings::setStream(fopen('php://memory', '+a'));
@@ -90,7 +66,6 @@ describe('validate', function () use($logInMemory): void {
     });
 
     it('should throw exception when environment is empty with error level', function (): void {
-        SuperlogSettings::setChannel('channel');
         SuperlogSettings::setApplication('application');
         SuperlogSettings::setEnvironment('');
         SuperlogSettings::setStream(fopen('php://memory', '+a'));
@@ -98,17 +73,7 @@ describe('validate', function () use($logInMemory): void {
         expect(fn () => Superlog::error('foo'))->toThrow(RuntimeException::class, 'Environment not set');
     });
 
-    it('should throw exception when channel is empty with warning level', function (): void {
-        SuperlogSettings::setChannel('');
-        SuperlogSettings::setApplication('application');
-        SuperlogSettings::setEnvironment('environment');
-        SuperlogSettings::setStream(fopen('php://memory', '+a'));
-
-        expect(fn () => Superlog::warning('foo'))->toThrow(RuntimeException::class, 'Channel not set');
-    });
-
     it('should throw exception when application is empty with warning level', function (): void {
-        SuperlogSettings::setChannel('channel');
         SuperlogSettings::setApplication('');
         SuperlogSettings::setEnvironment('environment');
         SuperlogSettings::setStream(fopen('php://memory', '+a'));
@@ -117,7 +82,6 @@ describe('validate', function () use($logInMemory): void {
     });
 
     it('should throw exception when environment is empty with warning level', function (): void {
-        SuperlogSettings::setChannel('channel');
         SuperlogSettings::setApplication('application');
         SuperlogSettings::setEnvironment('');
         SuperlogSettings::setStream(fopen('php://memory', '+a'));
@@ -125,17 +89,7 @@ describe('validate', function () use($logInMemory): void {
         expect(fn () => Superlog::warning('foo'))->toThrow(RuntimeException::class, 'Environment not set');
     });
 
-    it('should throw exception when channel is empty with info level', function (): void {
-        SuperlogSettings::setChannel('');
-        SuperlogSettings::setApplication('application');
-        SuperlogSettings::setEnvironment('environment');
-        SuperlogSettings::setStream(fopen('php://memory', '+a'));
-
-        expect(fn () => Superlog::info('foo'))->toThrow(RuntimeException::class, 'Channel not set');
-    });
-
     it('should throw exception when application is empty with info level', function (): void {
-        SuperlogSettings::setChannel('channel');
         SuperlogSettings::setApplication('');
         SuperlogSettings::setEnvironment('environment');
         SuperlogSettings::setStream(fopen('php://memory', '+a'));
@@ -144,7 +98,6 @@ describe('validate', function () use($logInMemory): void {
     });
 
     it('should throw exception when environment is empty with info level', function (): void {
-        SuperlogSettings::setChannel('channel');
         SuperlogSettings::setApplication('application');
         SuperlogSettings::setEnvironment('');
         SuperlogSettings::setStream(fopen('php://memory', '+a'));
@@ -152,17 +105,7 @@ describe('validate', function () use($logInMemory): void {
         expect(fn () => Superlog::info('foo'))->toThrow(RuntimeException::class, 'Environment not set');
     });
 
-    it('should throw exception when channel is empty with debug level', function (): void {
-        SuperlogSettings::setChannel('');
-        SuperlogSettings::setApplication('application');
-        SuperlogSettings::setEnvironment('environment');
-        SuperlogSettings::setStream(fopen('php://memory', '+a'));
-
-        expect(fn () => Superlog::debug('foo'))->toThrow(RuntimeException::class, 'Channel not set');
-    });
-
     it('should throw exception when application is empty with debug level', function (): void {
-        SuperlogSettings::setChannel('channel');
         SuperlogSettings::setApplication('');
         SuperlogSettings::setEnvironment('environment');
         SuperlogSettings::setStream(fopen('php://memory', '+a'));
@@ -171,7 +114,6 @@ describe('validate', function () use($logInMemory): void {
     });
 
     it('should throw exception when environment is empty with debug level', function (): void {
-        SuperlogSettings::setChannel('channel');
         SuperlogSettings::setApplication('application');
         SuperlogSettings::setEnvironment('');
         SuperlogSettings::setStream(fopen('php://memory', '+a'));
@@ -180,7 +122,6 @@ describe('validate', function () use($logInMemory): void {
     });
 
     it('should throw exception when stream is empty with critical level', function (): void {
-        SuperlogSettings::setChannel('channel');
         SuperlogSettings::setApplication('application');
         SuperlogSettings::setEnvironment('environment');
         SuperlogSettings::setStream(null);
@@ -189,7 +130,6 @@ describe('validate', function () use($logInMemory): void {
     });
 
     it('should throw exception when stream is empty with error level', function (): void {
-        SuperlogSettings::setChannel('channel');
         SuperlogSettings::setApplication('application');
         SuperlogSettings::setEnvironment('environment');
         SuperlogSettings::setStream(null);
@@ -198,7 +138,6 @@ describe('validate', function () use($logInMemory): void {
     });
 
     it('should throw exception when stream is empty with warning level', function (): void {
-        SuperlogSettings::setChannel('channel');
         SuperlogSettings::setApplication('application');
         SuperlogSettings::setEnvironment('environment');
         SuperlogSettings::setStream(null);
@@ -207,7 +146,6 @@ describe('validate', function () use($logInMemory): void {
     });
 
     it('should throw exception when stream is empty with info level', function (): void {
-        SuperlogSettings::setChannel('channel');
         SuperlogSettings::setApplication('application');
         SuperlogSettings::setEnvironment('environment');
         SuperlogSettings::setStream(null);
@@ -216,7 +154,6 @@ describe('validate', function () use($logInMemory): void {
     });
 
     it('should throw exception when stream is empty with debug level', function (): void {
-        SuperlogSettings::setChannel('channel');
         SuperlogSettings::setApplication('application');
         SuperlogSettings::setEnvironment('environment');
         SuperlogSettings::setStream(null);
@@ -237,7 +174,7 @@ describe('validate', function () use($logInMemory): void {
         expect($jsonOutput['level'])->toBe('alert');
     });
 
-    it('not throw exception when application, environment and stream is not empty with critical level', function () use($logInMemory): void {
+    it('not throw exception when application, environment and stream is not empty with critical level', function () use ($logInMemory): void {
         SuperlogSettings::setApplication('application');
         SuperlogSettings::setEnvironment('environment');
         SuperlogSettings::setStream(fopen('php://memory', '+a'));
@@ -250,7 +187,7 @@ describe('validate', function () use($logInMemory): void {
         expect($jsonOutput['level'])->toBe('critical');
     });
 
-    it('not throw exception when application, environment and stream is not empty with error level', function () use($logInMemory): void {
+    it('not throw exception when application, environment and stream is not empty with error level', function () use ($logInMemory): void {
         SuperlogSettings::setApplication('application');
         SuperlogSettings::setEnvironment('environment');
         SuperlogSettings::setStream(fopen('php://memory', '+a'));
@@ -263,7 +200,7 @@ describe('validate', function () use($logInMemory): void {
         expect($jsonOutput['level'])->toBe('error');
     });
 
-    it('not throw exception when application, environment and stream is not empty with warning level', function () use($logInMemory): void {
+    it('not throw exception when application, environment and stream is not empty with warning level', function () use ($logInMemory): void {
         SuperlogSettings::setApplication('application');
         SuperlogSettings::setEnvironment('environment');
         SuperlogSettings::setStream(fopen('php://memory', '+a'));
@@ -715,7 +652,6 @@ describe('default values', function () use ($logInMemory): void {
         $output = $logInMemory(fn () => Superlog::alert('foo'));
         $jsonOutput = $output['json_output'];
 
-        expect($jsonOutput['channel'])->toContain('channel');
         expect($jsonOutput['application'])->toBe('application');
         expect($jsonOutput['environment'])->toBe('testing');
         expect($jsonOutput['level'])->toBe('alert');
@@ -725,7 +661,6 @@ describe('default values', function () use ($logInMemory): void {
         $output = $logInMemory(fn () => Superlog::critical('foo'));
         $jsonOutput = $output['json_output'];
 
-        expect($jsonOutput['channel'])->toContain('channel');
         expect($jsonOutput['application'])->toBe('application');
         expect($jsonOutput['environment'])->toBe('testing');
         expect($jsonOutput['level'])->toBe('critical');
@@ -735,7 +670,6 @@ describe('default values', function () use ($logInMemory): void {
         $output = $logInMemory(fn () => Superlog::error('foo'));
         $jsonOutput = $output['json_output'];
 
-        expect($jsonOutput['channel'])->toContain('channel');
         expect($jsonOutput['application'])->toBe('application');
         expect($jsonOutput['environment'])->toBe('testing');
         expect($jsonOutput['level'])->toBe('error');
@@ -745,7 +679,6 @@ describe('default values', function () use ($logInMemory): void {
         $output = $logInMemory(fn () => Superlog::warning('foo'));
         $jsonOutput = $output['json_output'];
 
-        expect($jsonOutput['channel'])->toContain('channel');
         expect($jsonOutput['application'])->toBe('application');
         expect($jsonOutput['environment'])->toBe('testing');
         expect($jsonOutput['level'])->toBe('warning');
@@ -755,7 +688,6 @@ describe('default values', function () use ($logInMemory): void {
         $output = $logInMemory(fn () => Superlog::info('foo'));
         $jsonOutput = $output['json_output'];
 
-        expect($jsonOutput['channel'])->toContain('channel');
         expect($jsonOutput['application'])->toBe('application');
         expect($jsonOutput['environment'])->toBe('testing');
         expect($jsonOutput['level'])->toBe('info');
@@ -765,7 +697,6 @@ describe('default values', function () use ($logInMemory): void {
         $output = $logInMemory(fn () => Superlog::debug('foo'));
         $jsonOutput = $output['json_output'];
 
-        expect($jsonOutput['channel'])->toContain('channel');
         expect($jsonOutput['application'])->toBe('application');
         expect($jsonOutput['environment'])->toBe('testing');
         expect($jsonOutput['level'])->toBe('debug');
@@ -916,12 +847,12 @@ describe('observers', function () use ($logInMemory): void {
             expect($logData->message['any_data']['id'])->toContain('any-id');
             expect($logData->message['any_data']['name'])->toContain('any-name');
             expect($logData->message['bar'])->toBe('bar');
-            expect($logData)->toHaveProperties(['timestamp', 'channel', 'application', 'environment', 'logId', 'tags']);
+            expect($logData)->toHaveProperties(['timestamp', 'application', 'environment', 'logId', 'tags']);
         }
         foreach ($observer->loggedEvents as $logData) {
             expect($logData->level)->toBe('alert');
             expect($logData->message)->toContain('foo');
-            expect($logData)->toHaveProperties(['timestamp', 'channel', 'application', 'environment', 'logId', 'tags']);
+            expect($logData)->toHaveProperties(['timestamp', 'application', 'environment', 'logId', 'tags']);
         }
     });
 
@@ -964,12 +895,12 @@ describe('observers', function () use ($logInMemory): void {
             expect($logData->message['any_data']['id'])->toContain('any-id');
             expect($logData->message['any_data']['name'])->toContain('any-name');
             expect($logData->message['bar'])->toBe('bar');
-            expect($logData)->toHaveProperties(['timestamp', 'channel', 'application', 'environment', 'logId', 'tags']);
+            expect($logData)->toHaveProperties(['timestamp', 'application', 'environment', 'logId', 'tags']);
         }
         foreach ($observer->loggedEvents as $logData) {
             expect($logData->level)->toBe('critical');
             expect($logData->message)->toContain('foo');
-            expect($logData)->toHaveProperties(['timestamp', 'channel', 'application', 'environment', 'logId', 'tags']);
+            expect($logData)->toHaveProperties(['timestamp', 'application', 'environment', 'logId', 'tags']);
         }
     });
 
@@ -1010,12 +941,12 @@ describe('observers', function () use ($logInMemory): void {
             expect($logData->message)->toHaveKeys(['any_data', 'any_data.id', 'any_data.name']);
             expect($logData->message['any_data']['id'])->toContain('any-id');
             expect($logData->message['any_data']['name'])->toContain('any-name');
-            expect($logData)->toHaveProperties(['timestamp', 'channel', 'application', 'environment', 'logId', 'tags']);
+            expect($logData)->toHaveProperties(['timestamp', 'application', 'environment', 'logId', 'tags']);
         }
         foreach ($observer->loggedEvents as $logData) {
             expect($logData->level)->toBe('error');
             expect($logData->message)->toContain('foo');
-            expect($logData)->toHaveProperties(['timestamp', 'channel', 'application', 'environment', 'logId', 'tags']);
+            expect($logData)->toHaveProperties(['timestamp', 'application', 'environment', 'logId', 'tags']);
         }
     });
 
@@ -1058,12 +989,12 @@ describe('observers', function () use ($logInMemory): void {
             expect($logData->message['any_data']['id'])->toContain('any-id');
             expect($logData->message['any_data']['name'])->toContain('any-name');
             expect($logData->message['bar'])->toBe('bar');
-            expect($logData)->toHaveProperties(['timestamp', 'channel', 'application', 'environment', 'logId', 'tags']);
+            expect($logData)->toHaveProperties(['timestamp', 'application', 'environment', 'logId', 'tags']);
         }
         foreach ($observer->loggedEvents as $logData) {
             expect($logData->level)->toBe('warning');
             expect($logData->message)->toContain('foo');
-            expect($logData)->toHaveProperties(['timestamp', 'channel', 'application', 'environment', 'logId', 'tags']);
+            expect($logData)->toHaveProperties(['timestamp', 'application', 'environment', 'logId', 'tags']);
         }
     });
 
@@ -1106,12 +1037,12 @@ describe('observers', function () use ($logInMemory): void {
             expect($logData->message['any_data']['id'])->toContain('any-id');
             expect($logData->message['any_data']['name'])->toContain('any-name');
             expect($logData->message['bar'])->toBe('bar');
-            expect($logData)->toHaveProperties(['timestamp', 'channel', 'application', 'environment', 'logId', 'tags']);
+            expect($logData)->toHaveProperties(['timestamp', 'application', 'environment', 'logId', 'tags']);
         }
         foreach ($observer->loggedEvents as $logData) {
             expect($logData->level)->toBe('info');
             expect($logData->message)->toContain('foo');
-            expect($logData)->toHaveProperties(['timestamp', 'channel', 'application', 'environment', 'logId', 'tags']);
+            expect($logData)->toHaveProperties(['timestamp', 'application', 'environment', 'logId', 'tags']);
         }
     });
 
@@ -1154,12 +1085,12 @@ describe('observers', function () use ($logInMemory): void {
             expect($logData->message['any_data']['id'])->toContain('any-id');
             expect($logData->message['any_data']['name'])->toContain('any-name');
             expect($logData->message['bar'])->toBe('bar');
-            expect($logData)->toHaveProperties(['timestamp', 'channel', 'application', 'environment', 'logId', 'tags']);
+            expect($logData)->toHaveProperties(['timestamp', 'application', 'environment', 'logId', 'tags']);
         }
         foreach ($observer->loggedEvents as $logData) {
             expect($logData->level)->toBe('debug');
             expect($logData->message)->toContain('foo');
-            expect($logData)->toHaveProperties(['timestamp', 'channel', 'application', 'environment', 'logId', 'tags']);
+            expect($logData)->toHaveProperties(['timestamp', 'application', 'environment', 'logId', 'tags']);
         }
     });
 });
@@ -1218,7 +1149,6 @@ describe('log in stdout', function (): void {
     it('logs with critical level', function (): void {
         SuperlogSettings::setApplication('application');
         SuperlogSettings::setEnvironment('testing');
-        SuperlogSettings::setChannel('channel');
         SuperlogSettings::setStream('stdout');
 
         expect(fn () => Superlog::critical('foo'))->not->toThrow(Exception::class);
@@ -1227,7 +1157,6 @@ describe('log in stdout', function (): void {
     it('logs with error level', function (): void {
         SuperlogSettings::setApplication('application');
         SuperlogSettings::setEnvironment('testing');
-        SuperlogSettings::setChannel('channel');
         SuperlogSettings::setStream('stdout');
 
         expect(fn () => Superlog::error('foo'))->not->toThrow(Exception::class);
@@ -1236,7 +1165,6 @@ describe('log in stdout', function (): void {
     it('logs with warning level', function (): void {
         SuperlogSettings::setApplication('application');
         SuperlogSettings::setEnvironment('testing');
-        SuperlogSettings::setChannel('channel');
         SuperlogSettings::setStream('stdout');
 
         expect(fn () => Superlog::warning('foo'))->not->toThrow(Exception::class);
@@ -1245,7 +1173,6 @@ describe('log in stdout', function (): void {
     it('logs with info level', function (): void {
         SuperlogSettings::setApplication('application');
         SuperlogSettings::setEnvironment('testing');
-        SuperlogSettings::setChannel('channel');
         SuperlogSettings::setStream('stdout');
 
         expect(fn () => Superlog::info('foo'))->not->toThrow(Exception::class);
@@ -1254,7 +1181,6 @@ describe('log in stdout', function (): void {
     it('logs with debug level', function (): void {
         SuperlogSettings::setApplication('application');
         SuperlogSettings::setEnvironment('testing');
-        SuperlogSettings::setChannel('channel');
         SuperlogSettings::setStream('stdout');
 
         expect(fn () => Superlog::debug('foo'))->not->toThrow(Exception::class);
@@ -1265,7 +1191,6 @@ describe('log in any-stream', function (): void {
     it('logs with alert level', function (): void {
         SuperlogSettings::setApplication('application');
         SuperlogSettings::setEnvironment('testing');
-        SuperlogSettings::setChannel('channel');
         SuperlogSettings::setStream('any-stream');
 
         expect(fn () => Superlog::alert('foo'))->not->toThrow(Exception::class);
@@ -1274,7 +1199,6 @@ describe('log in any-stream', function (): void {
     it('logs with critical level', function (): void {
         SuperlogSettings::setApplication('application');
         SuperlogSettings::setEnvironment('testing');
-        SuperlogSettings::setChannel('channel');
         SuperlogSettings::setStream('any-stream');
 
         expect(fn () => Superlog::critical('foo'))->not->toThrow(Exception::class);
@@ -1283,7 +1207,6 @@ describe('log in any-stream', function (): void {
     it('logs with error level', function (): void {
         SuperlogSettings::setApplication('application');
         SuperlogSettings::setEnvironment('testing');
-        SuperlogSettings::setChannel('channel');
         SuperlogSettings::setStream('any-stream');
 
         expect(fn () => Superlog::error('foo'))->not->toThrow(Exception::class);
@@ -1292,7 +1215,6 @@ describe('log in any-stream', function (): void {
     it('logs with warning level', function (): void {
         SuperlogSettings::setApplication('application');
         SuperlogSettings::setEnvironment('testing');
-        SuperlogSettings::setChannel('channel');
         SuperlogSettings::setStream('any-stream');
 
         expect(fn () => Superlog::warning('foo'))->not->toThrow(Exception::class);
@@ -1301,7 +1223,6 @@ describe('log in any-stream', function (): void {
     it('logs with info level', function (): void {
         SuperlogSettings::setApplication('application');
         SuperlogSettings::setEnvironment('testing');
-        SuperlogSettings::setChannel('channel');
         SuperlogSettings::setStream('any-stream');
 
         expect(fn () => Superlog::info('foo'))->not->toThrow(Exception::class);
@@ -1310,7 +1231,6 @@ describe('log in any-stream', function (): void {
     it('logs with debug level', function (): void {
         SuperlogSettings::setApplication('application');
         SuperlogSettings::setEnvironment('testing');
-        SuperlogSettings::setChannel('channel');
         SuperlogSettings::setStream('any-stream');
 
         expect(fn () => Superlog::debug('foo'))->not->toThrow(Exception::class);
@@ -1321,7 +1241,6 @@ describe('disabled', function (): void {
     it('should not log when disabled with alert level', function (): void {
         SuperlogSettings::setApplication('application');
         SuperlogSettings::setEnvironment('testing');
-        SuperlogSettings::setChannel('channel');
         SuperlogSettings::setStream('any-stream');
         SuperlogSettings::disableWhen(true);
 
@@ -1331,7 +1250,6 @@ describe('disabled', function (): void {
     it('should not log when disabled with critical level', function (): void {
         SuperlogSettings::setApplication('application');
         SuperlogSettings::setEnvironment('testing');
-        SuperlogSettings::setChannel('channel');
         SuperlogSettings::setStream('any-stream');
         SuperlogSettings::disableWhen(true);
 
@@ -1341,7 +1259,6 @@ describe('disabled', function (): void {
     it('should not log when disabled with error level', function (): void {
         SuperlogSettings::setApplication('application');
         SuperlogSettings::setEnvironment('testing');
-        SuperlogSettings::setChannel('channel');
         SuperlogSettings::setStream('any-stream');
         SuperlogSettings::disableWhen(true);
 
@@ -1351,7 +1268,6 @@ describe('disabled', function (): void {
     it('should not log when disabled with warning level', function (): void {
         SuperlogSettings::setApplication('application');
         SuperlogSettings::setEnvironment('testing');
-        SuperlogSettings::setChannel('channel');
         SuperlogSettings::setStream('any-stream');
         SuperlogSettings::disableWhen(true);
 
@@ -1361,7 +1277,6 @@ describe('disabled', function (): void {
     it('should not log when disabled with info level', function (): void {
         SuperlogSettings::setApplication('application');
         SuperlogSettings::setEnvironment('testing');
-        SuperlogSettings::setChannel('channel');
         SuperlogSettings::setStream('any-stream');
         SuperlogSettings::disableWhen(true);
 
@@ -1371,7 +1286,6 @@ describe('disabled', function (): void {
     it('should not log when disabled with debug level', function (): void {
         SuperlogSettings::setApplication('application');
         SuperlogSettings::setEnvironment('testing');
-        SuperlogSettings::setChannel('channel');
         SuperlogSettings::setStream('any-stream');
         SuperlogSettings::disableWhen(true);
 
@@ -1381,7 +1295,6 @@ describe('disabled', function (): void {
     it('should not log when disabled with raw method', function (): void {
         SuperlogSettings::setApplication('application');
         SuperlogSettings::setEnvironment('testing');
-        SuperlogSettings::setChannel('channel');
         SuperlogSettings::setStream('any-stream');
         SuperlogSettings::disableWhen(true);
 

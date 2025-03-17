@@ -19,11 +19,6 @@ final class SuperlogSettings
     private static string $logLevel = 'debug';
 
     /**
-     * Channel name for the logger.
-     */
-    private static string $channel = 'stdout';
-
-    /**
      * Application name.
      */
     private static string $application = '';
@@ -66,22 +61,6 @@ final class SuperlogSettings
     public static function getLogLevel(): string
     {
         return self::$logLevel;
-    }
-
-    /**
-     * Set the channel.
-     */
-    public static function setChannel(string $channel): void
-    {
-        self::$channel = $channel;
-    }
-
-    /**
-     * Get the channel.
-     */
-    public static function getChannel(): string
-    {
-        return self::$channel;
     }
 
     /**
@@ -187,10 +166,6 @@ final class SuperlogSettings
      */
     private static function validate(): void
     {
-        if (empty(self::$channel)) {
-            throw new RuntimeException('Channel not set');
-        }
-
         if (! isset(self::$application) || empty(self::$application)) {
             throw new RuntimeException('Application not set');
         }

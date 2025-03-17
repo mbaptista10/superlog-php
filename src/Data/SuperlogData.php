@@ -38,7 +38,6 @@ final class SuperlogData
         /** @var array<mixed, string> */
         public readonly array $tags,
         public readonly string $level,
-        public readonly string $channel,
         public readonly string $application,
         public readonly string $environment,
     ) {
@@ -53,13 +52,12 @@ final class SuperlogData
      *
      * @param  string|array<mixed>  $message
      * @param  array<mixed, string>  $tags
-     * @param  string|resource  $channel
      */
     public static function from(
         string|array $message,
         array $tags,
         string $level,
-        $channel,
+
         string $application,
         string $environment,
     ): self {
@@ -67,7 +65,6 @@ final class SuperlogData
             message: $message,
             tags: $tags,
             level: $level,
-            channel: "{$channel}",
             application: $application,
             environment: $environment,
         );
@@ -87,7 +84,6 @@ final class SuperlogData
             value: [
                 'timestamp' => $this->timestamp,
                 'level' => $this->level,
-                'channel' => $this->channel,
                 'application' => $this->application,
                 'environment' => $this->environment,
                 'message' => json_encode(value: $this->message, depth: 1024),
