@@ -23,7 +23,7 @@ class Superlog implements LoggerContract
             $observer->logging($logData);
         }
 
-        match ($logData->level) {
+        match ($logData->level()) {
             'alert' => SuperlogSettings::getNewLogger()->alert((string) $logData->toJson()),
             'error' => SuperlogSettings::getNewLogger()->error((string) $logData->toJson()),
             'warning' => SuperlogSettings::getNewLogger()->warning((string) $logData->toJson()),

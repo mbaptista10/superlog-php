@@ -13,19 +13,19 @@ final class SuperlogData
     /**
      * The log id
      */
-    public string $logId;
+    private readonly string $logId;
 
     /**
      * The timestamp log
      */
-    public string $timestamp;
+    private readonly string $timestamp;
 
     /**
      * The message to log
      *
      * @var array<mixed>
      */
-    public array $message;
+    private array $message;
 
     /**
      * Create a new instance of the class
@@ -36,10 +36,10 @@ final class SuperlogData
         /** @var string|array<mixed> */
         string|array $message,
         /** @var array<mixed, string> */
-        public readonly array $tags,
-        public readonly string $level,
-        public readonly string $application,
-        public readonly string $environment,
+        private readonly array $tags,
+        private readonly string $level,
+        private readonly string $application,
+        private readonly string $environment,
     ) {
         $this->logId = Uuid::uuid4()->toString();
         $now = new DateTime('now', new DateTimeZone('UTC'));
@@ -57,7 +57,6 @@ final class SuperlogData
         string|array $message,
         array $tags,
         string $level,
-
         string $application,
         string $environment,
     ): self {
@@ -68,6 +67,24 @@ final class SuperlogData
             application: $application,
             environment: $environment,
         );
+    }
+
+    /**
+     * Get the log level of the message
+     */
+    public function level(): string
+    {
+        return $this->level;
+    }
+
+    /**
+     * Get the message of the log
+     *
+     * @return array<mixed>
+     */
+    public function message(): array
+    {
+        return $this->message;
     }
 
     /**
