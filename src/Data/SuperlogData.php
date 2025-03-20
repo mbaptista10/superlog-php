@@ -28,6 +28,16 @@ final class SuperlogData
     private array $message;
 
     /**
+     * The trace id
+     */
+    private ?string $traceId = null;
+
+    /**
+     * The span id
+     */
+    private ?string $spanId = null;
+
+    /**
      * Create a new instance of the class
      *
      * @param  array<mixed>  $message
@@ -99,10 +109,13 @@ final class SuperlogData
 
         return json_encode(
             value: [
+                'version' => 'v2',
                 'timestamp' => $this->timestamp,
                 'level' => $this->level,
                 'application' => $this->application,
                 'environment' => $this->environment,
+                'trace_id' => $this->traceId,
+                'span_id' => $this->spanId,
                 'message' => json_encode(value: $this->message, depth: 1024),
                 'tags' => $tags,
             ],
@@ -140,5 +153,21 @@ final class SuperlogData
             ...$this->message,
             ...$message,
         ];
+    }
+
+    /**
+     * Add the trace id
+     */
+    public function addTraceId(string $traceId): void
+    {
+        $this->traceId = $traceId;
+    }
+
+    /**
+     * Add the span id
+     */
+    public function addSpanId(string $spanId): void
+    {
+        $this->spanId = $spanId;
     }
 }

@@ -7,8 +7,6 @@ use Superlog\SuperlogSettings;
 
 $logInMemory = function ($logCallback): array {
     $stream = fopen('php://memory', 'a+');
-    SuperlogSettings::setEnvironment('testing');
-    SuperlogSettings::setApplication('application');
     SuperlogSettings::setStream($stream);
 
     $logCallback();
@@ -23,6 +21,19 @@ $logInMemory = function ($logCallback): array {
         'json_output' => $jsonOutput,
     ];
 };
+
+$rfcKeys = fn (): array => ['version', 'timestamp', 'level', 'application', 'environment', 'message', 'tags', 'trace_id', 'span_id'];
+
+$resetSuperlogSettings = function (): void {
+    SuperlogSettings::clearObservers();
+    SuperlogSettings::setEnvironment('testing');
+    SuperlogSettings::setApplication('application');
+    SuperlogSettings::disableWhen(false);
+};
+
+beforeEach(function () use ($resetSuperlogSettings): void {
+    $resetSuperlogSettings();
+});
 
 describe('validate', function () use ($logInMemory): void {
     it('should throw exception when application is empty with alert level', function (): void {
@@ -240,52 +251,52 @@ describe('validate', function () use ($logInMemory): void {
     });
 });
 
-describe('rfc', function () use ($logInMemory): void {
-    it('should be rfc compliant with level alert', function () use ($logInMemory): void {
+describe('rfc', function () use ($logInMemory, $rfcKeys): void {
+    it('should be rfc compliant with level alert', function () use ($logInMemory, $rfcKeys): void {
         $output = $logInMemory(fn () => Superlog::alert('foo'));
         $jsonOutput = $output['json_output'];
 
-        expect($jsonOutput)->toHaveKeys(['timestamp', 'level', 'application', 'environment', 'message', 'tags']);
+        expect($jsonOutput)->toHaveKeys($rfcKeys());
         expect($jsonOutput['level'])->toBe('alert');
     });
 
-    it('should be rfc compliant with level critical', function () use ($logInMemory): void {
+    it('should be rfc compliant with level critical', function () use ($logInMemory, $rfcKeys): void {
         $output = $logInMemory(fn () => Superlog::critical('foo'));
         $jsonOutput = $output['json_output'];
 
-        expect($jsonOutput)->toHaveKeys(['timestamp', 'level', 'application', 'environment', 'message', 'tags']);
+        expect($jsonOutput)->toHaveKeys($rfcKeys());
         expect($jsonOutput['level'])->toBe('critical');
     });
 
-    it('should be rfc compliant with level error', function () use ($logInMemory): void {
+    it('should be rfc compliant with level error', function () use ($logInMemory, $rfcKeys): void {
         $output = $logInMemory(fn () => Superlog::error('foo'));
         $jsonOutput = $output['json_output'];
 
-        expect($jsonOutput)->toHaveKeys(['timestamp', 'level', 'application', 'environment', 'message', 'tags']);
+        expect($jsonOutput)->toHaveKeys($rfcKeys());
         expect($jsonOutput['level'])->toBe('error');
     });
 
-    it('should be rfc compliant with level warning', function () use ($logInMemory): void {
+    it('should be rfc compliant with level warning', function () use ($logInMemory, $rfcKeys): void {
         $output = $logInMemory(fn () => Superlog::warning('foo'));
         $jsonOutput = $output['json_output'];
 
-        expect($jsonOutput)->toHaveKeys(['timestamp', 'level', 'application', 'environment', 'message', 'tags']);
+        expect($jsonOutput)->toHaveKeys($rfcKeys());
         expect($jsonOutput['level'])->toBe('warning');
     });
 
-    it('should be rfc compliant with level info', function () use ($logInMemory): void {
+    it('should be rfc compliant with level info', function () use ($logInMemory, $rfcKeys): void {
         $output = $logInMemory(fn () => Superlog::info('foo'));
         $jsonOutput = $output['json_output'];
 
-        expect($jsonOutput)->toHaveKeys(['timestamp', 'level', 'application', 'environment', 'message', 'tags']);
+        expect($jsonOutput)->toHaveKeys($rfcKeys());
         expect($jsonOutput['level'])->toBe('info');
     });
 
-    it('should be rfc compliant with level debug', function () use ($logInMemory): void {
+    it('should be rfc compliant with level debug', function () use ($logInMemory, $rfcKeys): void {
         $output = $logInMemory(fn () => Superlog::debug('foo'));
         $jsonOutput = $output['json_output'];
 
-        expect($jsonOutput)->toHaveKeys(['timestamp', 'level', 'application', 'environment', 'message', 'tags']);
+        expect($jsonOutput)->toHaveKeys($rfcKeys());
         expect($jsonOutput['level'])->toBe('debug');
     });
 });
@@ -1299,5 +1310,164 @@ describe('disabled', function (): void {
         SuperlogSettings::disableWhen(true);
 
         expect(fn () => Superlog::raw('info', 'foo'))->not->toThrow(Exception::class);
+    });
+});
+
+describe('DatadogTracerObserver', function () use ($logInMemory): void {
+    it('notifies DatadogTracerObserver about the log to add span_id and trace_id with alert level', function () use ($logInMemory): void {
+        SuperlogSettings::useDatadogTracerObserver();
+
+        $output = $logInMemory(fn () => Superlog::alert('foo'));
+        $jsonOutput = $output['json_output'];
+
+        expect($jsonOutput['level'])->toBe('alert');
+        expect($jsonOutput['span_id'])->toBe('0');
+        expect($jsonOutput['trace_id'])->toBe('0');
+    });
+
+    it('notifies DatadogTracerObserver about the log to add span_id and trace_id with critical level', function () use ($logInMemory): void {
+        SuperlogSettings::useDatadogTracerObserver();
+
+        $output = $logInMemory(fn () => Superlog::critical('foo'));
+        $jsonOutput = $output['json_output'];
+
+        expect($jsonOutput['level'])->toBe('critical');
+        expect($jsonOutput['span_id'])->toBe('0');
+        expect($jsonOutput['trace_id'])->toBe('0');
+    });
+
+    it('notifies DatadogTracerObserver about the log to add span_id and trace_id with error level', function () use ($logInMemory): void {
+        SuperlogSettings::useDatadogTracerObserver();
+
+        $output = $logInMemory(fn () => Superlog::error('foo'));
+        $jsonOutput = $output['json_output'];
+
+        expect($jsonOutput['level'])->toBe('error');
+        expect($jsonOutput['span_id'])->toBe('0');
+        expect($jsonOutput['trace_id'])->toBe('0');
+    });
+
+    it('notifies DatadogTracerObserver about the log to add span_id and trace_id with warning level', function () use ($logInMemory): void {
+        SuperlogSettings::useDatadogTracerObserver();
+
+        $output = $logInMemory(fn () => Superlog::warning('foo'));
+        $jsonOutput = $output['json_output'];
+
+        expect($jsonOutput['level'])->toBe('warning');
+        expect($jsonOutput['span_id'])->toBe('0');
+        expect($jsonOutput['trace_id'])->toBe('0');
+    });
+
+    it('notifies DatadogTracerObserver about the log to add span_id and trace_id with info level', function () use ($logInMemory): void {
+        SuperlogSettings::useDatadogTracerObserver();
+
+        $output = $logInMemory(fn () => Superlog::info('foo'));
+        $jsonOutput = $output['json_output'];
+
+        expect($jsonOutput['level'])->toBe('info');
+        expect($jsonOutput['span_id'])->toBe('0');
+        expect($jsonOutput['trace_id'])->toBe('0');
+    });
+
+    it('notifies DatadogTracerObserver about the log to add span_id and trace_id with debug level', function () use ($logInMemory): void {
+        SuperlogSettings::useDatadogTracerObserver();
+
+        $output = $logInMemory(fn () => Superlog::debug('foo'));
+        $jsonOutput = $output['json_output'];
+
+        expect($jsonOutput['level'])->toBe('debug');
+        expect($jsonOutput['span_id'])->toBe('0');
+        expect($jsonOutput['trace_id'])->toBe('0');
+    });
+
+    it('notifies DatadogTracerObserver about the log to add span_id and trace_id with raw method', function () use ($logInMemory): void {
+        SuperlogSettings::useDatadogTracerObserver();
+
+        $output = $logInMemory(fn () => Superlog::raw('debug', 'foo'));
+        $jsonOutput = $output['json_output'];
+
+        expect($jsonOutput['level'])->toBe('debug');
+        expect($jsonOutput['span_id'])->toBe('0');
+        expect($jsonOutput['trace_id'])->toBe('0');
+    });
+
+});
+
+describe('CustomTracerObserver', function () use ($logInMemory): void {
+    it('notifies CustomTracerObserver about the log to add span_id and trace_id with alert level', function () use ($logInMemory): void {
+        SuperlogSettings::useCustomTracerObserver();
+
+        $output = $logInMemory(fn () => Superlog::alert('foo'));
+        $jsonOutput = $output['json_output'];
+
+        expect($jsonOutput['level'])->toBe('alert');
+        expect($jsonOutput['span_id'])->toBeUuid();
+        expect($jsonOutput['trace_id'])->toBeUuid();
+    });
+
+    it('notifies CustomTracerObserver about the log to add span_id and trace_id with critical level', function () use ($logInMemory): void {
+        SuperlogSettings::useCustomTracerObserver();
+
+        $output = $logInMemory(fn () => Superlog::critical('foo'));
+        $jsonOutput = $output['json_output'];
+
+        expect($jsonOutput['level'])->toBe('critical');
+        expect($jsonOutput['span_id'])->toBeUuid();
+        expect($jsonOutput['trace_id'])->toBeUuid();
+    });
+
+    it('notifies CustomTracerObserver about the log to add span_id and trace_id with error level', function () use ($logInMemory): void {
+        SuperlogSettings::useCustomTracerObserver();
+
+        $output = $logInMemory(fn () => Superlog::error('foo'));
+        $jsonOutput = $output['json_output'];
+
+        expect($jsonOutput['level'])->toBe('error');
+        expect($jsonOutput['span_id'])->toBeUuid();
+        expect($jsonOutput['trace_id'])->toBeUuid();
+    });
+
+    it('notifies CustomTracerObserver about the log to add span_id and trace_id with warning level', function () use ($logInMemory): void {
+        SuperlogSettings::useCustomTracerObserver();
+
+        $output = $logInMemory(fn () => Superlog::warning('foo'));
+        $jsonOutput = $output['json_output'];
+
+        expect($jsonOutput['level'])->toBe('warning');
+        expect($jsonOutput['span_id'])->toBeUuid();
+        expect($jsonOutput['trace_id'])->toBeUuid();
+    });
+
+    it('notifies CustomTracerObserver about the log to add span_id and trace_id with info level', function () use ($logInMemory): void {
+        SuperlogSettings::useCustomTracerObserver();
+
+        $output = $logInMemory(fn () => Superlog::info('foo'));
+        $jsonOutput = $output['json_output'];
+
+        expect($jsonOutput['level'])->toBe('info');
+        expect($jsonOutput['span_id'])->toBeUuid();
+        expect($jsonOutput['trace_id'])->toBeUuid();
+    });
+
+    it('notifies CustomTracerObserver about the log to add span_id and trace_id with debug level', function () use ($logInMemory): void {
+        SuperlogSettings::useCustomTracerObserver();
+
+        $output = $logInMemory(fn () => Superlog::debug('foo'));
+        $jsonOutput = $output['json_output'];
+
+        expect($jsonOutput['level'])->toBe('debug');
+        expect($jsonOutput['span_id'])->toBeUuid();
+        expect($jsonOutput['trace_id'])->toBeUuid();
+    });
+
+    it('notifies CustomTracerObserver about the log to add span_id and trace_id with raw method', function () use ($logInMemory): void {
+        SuperlogSettings::useCustomTracerObserver();
+
+        $output = $logInMemory(fn () => Superlog::raw('alert', 'foo'));
+        $jsonOutput = $output['json_output'];
+
+        expect($jsonOutput['level'])->toBe('alert');
+        expect($jsonOutput['span_id'])->toBeUuid();
+        expect($jsonOutput['trace_id'])->toBeUuid();
     });
 });

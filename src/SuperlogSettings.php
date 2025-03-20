@@ -10,6 +10,8 @@ use Monolog\Level;
 use Monolog\Logger;
 use RuntimeException;
 use Superlog\Contracts\LoggerObserverContract;
+use Superlog\Observers\CustomTracerObserver;
+use Superlog\Observers\DatadogTracerObserver;
 
 final class SuperlogSettings
 {
@@ -188,6 +190,14 @@ final class SuperlogSettings
     }
 
     /**
+     * Clear the observers
+     */
+    public static function clearObservers(): void
+    {
+        self::$observers = [];
+    }
+
+    /**
      * Get the observers for the logger.
      *
      * @return array<LoggerObserverContract>
@@ -195,6 +205,24 @@ final class SuperlogSettings
     public static function getObservers(): array
     {
         return self::$observers;
+    }
+
+    /**
+     * Add the custom tracer observer.
+     */
+    public static function useCustomTracerObserver(): void
+    {
+        $observer = new CustomTracerObserver;
+        self::addObserver($observer);
+    }
+
+    /**
+     * Add the datadog tracer observer.
+     */
+    public static function useDatadogTracerObserver(): void
+    {
+        $observer = new DatadogTracerObserver;
+        self::addObserver($observer);
     }
 
     /**

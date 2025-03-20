@@ -25,6 +25,12 @@ jobs:
           extensions: dom, mbstring, zip
           coverage: xdebug
 
+      - name: Install Datadog PHP Tracer
+        run: |
+          curl -LO "https://github.com/DataDog/dd-trace-php/releases/download/0.99.1/datadog-setup.php"
+          sudo php datadog-setup.php --php-bin=all --enable-appsec
+          sudo rm -rf datadog-setup.php
+
       - name: Get Composer cache directory
         id: composer-cache
         shell: bash
