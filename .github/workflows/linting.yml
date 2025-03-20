@@ -47,8 +47,11 @@ jobs:
       - name: Install Composer dependencies
         run: composer update --${{ matrix.dependency-version }} --no-interaction --prefer-dist
 
-      - name: Coding Style Checks
-        run: composer test:lint
+      - name: Rector check
+        run: composer run rector:check
 
-      - name: Type Checks
-        run: composer test:types
+      - name: Pint check
+        run: composer run pint:check
+
+      - name: PHPStan check
+        run: composer run phpstan:check

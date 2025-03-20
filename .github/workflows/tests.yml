@@ -46,8 +46,5 @@ jobs:
       - name: Install Composer dependencies
         run: composer update --${{ matrix.dependency-version }} --no-interaction --prefer-dist
 
-      - name: Refactor
-        run: composer run test:refactor
-
-      - name: Integration Tests
-        run: composer run test:automated
+      - name: Tests
+        run: composer run test:ci
