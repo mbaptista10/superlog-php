@@ -4,6 +4,47 @@ Todas as alterações relevantes para este projeto serão documentadas neste arq
 
 O formato segue o padrão [Keep a Changelog](http://keepachangelog.com/) e este projeto adere a [Versionamento Semântico](http://semver.org/).
 
+## [1.6.0] - 2025-03-22
+### Adicionado
+- **Suporte a rastreamento e observadores**:
+  - Implementados os observadores `CustomTracerObserver` e `DatadogTracerObserver`.
+  - Adicionados os campos `trace_id` e `span_id` no formato de log.
+  - Adicionados os métodos `useCustomTracerObserver` e `useDatadogTracerObserver`.
+  - Atualizado o `Dockerfile` para instalar dependências do Datadog.
+  - Criado o stub `ddtrace.stub.php` para auxiliar no CI/CD.
+  - Atualizados os testes para cobrir os novos recursos de rastreamento. (#cee7830)
+
+- **Novo nível de log: `alert`**:
+  - Adicionado o método `alert()` à interface `LoggerContract`.
+  - Implementado suporte ao nível `alert` na classe `Superlog`.
+  - Atualizado `SuperlogSettings` para reconhecer o nível `alert`.
+  - Adicionados testes para validar o novo nível de log. (#5d6ba54)
+
+### Alterado
+- **Encapsulamento no `SuperlogData`**:
+  - Propriedades tornadas privadas e somente leitura.
+  - Criados métodos de acesso `level()` e `message()`.
+  - Atualizado o uso dessas propriedades no `Superlog` e nos testes. (#ffc0169)
+
+- **Melhorias no gerenciamento de níveis de log e streams**:
+  - Suporte adicionado para logs em `stderr`.
+  - Validação centralizada dos níveis de log.
+  - Lógica de seleção de stream refatorada com base no nível.
+  - Maior consistência no tratamento de níveis de log. (#19113c9)
+
+- **Refatoração nos scripts de CI e linting**:
+  - Separação dos comandos de linting: `Rector`, `Pint`, `PHPStan`.
+  - Renomeação de scripts no `composer.json` para maior clareza.
+  - Atualização dos workflows do GitHub Actions.
+  - Adicionado script `checks` para rodar todas as validações. (#55d53ac)
+
+### Removido
+- **Campo `channel` dos logs**:
+  - Campo `channel` e suas referências removidas por simplicidade.
+  - Atualização da documentação e remoção dos testes relacionados. (#06cf7a1)
+
+---
+
 ## [1.5.0] - 2025-01-03
 ### Adicionado
 - **Opção para desabilitar o logger**:
