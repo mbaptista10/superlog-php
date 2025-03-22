@@ -54,7 +54,7 @@ final class SuperlogSettings
      */
     public static function setLogLevel(string $logLevel): void
     {
-        self::$logLevel = $logLevel;
+        self::$logLevel = mb_strtolower($logLevel);
     }
 
     /**
@@ -112,6 +112,10 @@ final class SuperlogSettings
             return 'php://stdout';
         }
 
+        if (self::$stream === 'stderr') {
+            return 'php://stderr';
+        }
+
         return self::$stream;
     }
 
@@ -129,13 +133,14 @@ final class SuperlogSettings
      * Returns the configured logger instance.
      * Creates the logger if it has not been initialized yet.
      */
-    public static function getNewLogger(): Logger
+    public static function getNewLogger(string $level): Logger
     {
         self::validate();
+        self::validateLogLevel($level);
         $loggerName = self::getApplication().'-'.'logger';
         $logger = new Logger($loggerName);
 
-        $logger->pushHandler(self::getNewStreamHandler());
+        $logger->pushHandler(self::getNewStreamHandler($level));
 
         return $logger;
     }
@@ -143,19 +148,28 @@ final class SuperlogSettings
     /**
      * Set the stream handler for the logger.
      */
-    private static function getNewStreamHandler(): StreamHandler
+    private static function getNewStreamHandler(string $level): StreamHandler
     {
+        self::validateLogLevel($level);
 
-        $level = match (self::getLogLevel()) {
-            'debug' => Level::Debug,
-            'info' => Level::Info,
-            'warning' => Level::Warning,
-            'error' => Level::Error,
+        $monologLogLevel = match ($level) {
             'alert' => Level::Alert,
-            default => Level::Critical,
+            'critical' => Level::Critical,
+            'error' => Level::Error,
+            'warning' => Level::Warning,
+            'info' => Level::Info,
+            default => Level::Debug,
         };
 
-        $streamHandler = new StreamHandler(self::getStream(), $level);
+        if (in_array(self::getStream(), ['php://stdout', 'php://stderr'])) {
+            match ($level) {
+                'info', 'warning' => self::setStream('php://stdout'),
+                'error', 'critical','alert' => self::setStream('php://stderr'),
+                default => self::setStream('php://stdout'),
+            };
+        }
+
+        $streamHandler = new StreamHandler(self::getStream(), $monologLogLevel);
         $streamHandler->setFormatter(new LineFormatter("%message%\n"));
 
         return $streamHandler;
@@ -179,6 +193,30 @@ final class SuperlogSettings
         if (! is_resource(self::$stream) && ! is_string(self::$stream)) {
             throw new RuntimeException('Stream not set or invalid');
         }
+
+        self::validateLogLevel(self::getLogLevel());
+    }
+
+    /**
+     * Validate the given log level.
+     */
+    private static function validateLogLevel(string $level): void
+    {
+        if (! in_array($level, ['debug', 'info', 'warning', 'error', 'critical', 'alert'])) {
+            throw new RuntimeException('Invalid log level');
+        }
+    }
+
+    /**
+     * Validate and check if the configured log level is allowed.
+     *
+     * @param  array<string>  $allowedLevels
+     */
+    public static function levelIsAllowed(array $allowedLevels): bool
+    {
+        self::validateLogLevel(self::getLogLevel());
+
+        return in_array(self::getLogLevel(), $allowedLevels);
     }
 
     /**

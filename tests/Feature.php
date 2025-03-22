@@ -28,6 +28,7 @@ $resetSuperlogSettings = function (): void {
     SuperlogSettings::clearObservers();
     SuperlogSettings::setEnvironment('testing');
     SuperlogSettings::setApplication('application');
+    SuperlogSettings::setLogLevel('debug');
     SuperlogSettings::disableWhen(false);
 };
 
@@ -170,6 +171,15 @@ describe('validate', function () use ($logInMemory): void {
         SuperlogSettings::setStream(null);
 
         expect(fn () => Superlog::debug('foo'))->toThrow(RuntimeException::class, 'Stream not set');
+    });
+
+    it('should throw exception when log level is invalid', function (): void {
+        SuperlogSettings::setApplication('application');
+        SuperlogSettings::setEnvironment('environment');
+        SuperlogSettings::setStream(fopen('php://memory', '+a'));
+        SuperlogSettings::setLogLevel('invalid');
+
+        expect(fn () => Superlog::debug('foo'))->toThrow(RuntimeException::class, 'Invalid log level');
     });
 
     it('not throw exception when application, environment and stream is not empty with alert level', function () use ($logInMemory): void {
@@ -1193,6 +1203,48 @@ describe('log in stdout', function (): void {
         SuperlogSettings::setApplication('application');
         SuperlogSettings::setEnvironment('testing');
         SuperlogSettings::setStream('stdout');
+
+        expect(fn () => Superlog::debug('foo'))->not->toThrow(Exception::class);
+    });
+});
+
+describe('log in stderr', function (): void {
+    it('logs with critical level', function (): void {
+        SuperlogSettings::setApplication('application');
+        SuperlogSettings::setEnvironment('testing');
+        SuperlogSettings::setStream('stderr');
+
+        expect(fn () => Superlog::critical('foo'))->not->toThrow(Exception::class);
+    });
+
+    it('logs with error level', function (): void {
+        SuperlogSettings::setApplication('application');
+        SuperlogSettings::setEnvironment('testing');
+        SuperlogSettings::setStream('stderr');
+
+        expect(fn () => Superlog::error('foo'))->not->toThrow(Exception::class);
+    });
+
+    it('logs with warning level', function (): void {
+        SuperlogSettings::setApplication('application');
+        SuperlogSettings::setEnvironment('testing');
+        SuperlogSettings::setStream('stderr');
+
+        expect(fn () => Superlog::warning('foo'))->not->toThrow(Exception::class);
+    });
+
+    it('logs with info level', function (): void {
+        SuperlogSettings::setApplication('application');
+        SuperlogSettings::setEnvironment('testing');
+        SuperlogSettings::setStream('stderr');
+
+        expect(fn () => Superlog::info('foo'))->not->toThrow(Exception::class);
+    });
+
+    it('logs with debug level', function (): void {
+        SuperlogSettings::setApplication('application');
+        SuperlogSettings::setEnvironment('testing');
+        SuperlogSettings::setStream('stderr');
 
         expect(fn () => Superlog::debug('foo'))->not->toThrow(Exception::class);
     });
