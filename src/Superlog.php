@@ -23,17 +23,38 @@ class Superlog implements LoggerContract
             $observer->logging($logData);
         }
 
-        match ($logData->level) {
-            'error' => SuperlogSettings::getNewLogger()->error((string) $logData->toJson()),
-            'warning' => SuperlogSettings::getNewLogger()->warning((string) $logData->toJson()),
-            'info' => SuperlogSettings::getNewLogger()->info((string) $logData->toJson()),
-            'debug' => SuperlogSettings::getNewLogger()->debug((string) $logData->toJson()),
-            default => SuperlogSettings::getNewLogger()->critical((string) $logData->toJson()),
+        match ($logData->level()) {
+            'alert' => SuperlogSettings::getNewLogger('alert')->alert((string) $logData->toJson()),
+            'critical' => SuperlogSettings::getNewLogger('critical')->critical((string) $logData->toJson()),
+            'error' => SuperlogSettings::getNewLogger('error')->error((string) $logData->toJson()),
+            'warning' => SuperlogSettings::getNewLogger('warning')->warning((string) $logData->toJson()),
+            'info' => SuperlogSettings::getNewLogger('info')->info((string) $logData->toJson()),
+            default => SuperlogSettings::getNewLogger('debug')->debug((string) $logData->toJson()),
         };
 
         foreach (SuperlogSettings::getObservers() as $observer) {
             $observer->logged($logData);
         }
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public static function alert(string|array $message, array $tags = []): void
+    {
+        if (SuperlogSettings::isDisabled()) {
+            return;
+        }
+
+        $logData = SuperlogData::from(
+            message: $message,
+            tags: $tags,
+            level: __FUNCTION__,
+            application: SuperlogSettings::getApplication(),
+            environment: SuperlogSettings::getEnvironment()
+        );
+
+        (new self)->log($logData);
     }
 
     /**
@@ -45,11 +66,15 @@ class Superlog implements LoggerContract
             return;
         }
 
+        $allowedLevels = ['debug', 'info', 'warning', 'error', __FUNCTION__];
+        if (! SuperlogSettings::levelIsAllowed($allowedLevels)) {
+            return;
+        }
+
         $logData = SuperlogData::from(
             message: $message,
             tags: $tags,
             level: __FUNCTION__,
-            channel: SuperlogSettings::getChannel(),
             application: SuperlogSettings::getApplication(),
             environment: SuperlogSettings::getEnvironment()
         );
@@ -67,7 +92,7 @@ class Superlog implements LoggerContract
         }
 
         $allowedLevels = ['debug', 'info', 'warning', __FUNCTION__];
-        if (! in_array(SuperlogSettings::getLogLevel(), $allowedLevels)) {
+        if (! SuperlogSettings::levelIsAllowed($allowedLevels)) {
             return;
         }
 
@@ -75,7 +100,6 @@ class Superlog implements LoggerContract
             message: $message,
             tags: $tags,
             level: __FUNCTION__,
-            channel: SuperlogSettings::getChannel(),
             application: SuperlogSettings::getApplication(),
             environment: SuperlogSettings::getEnvironment()
         );
@@ -93,7 +117,7 @@ class Superlog implements LoggerContract
         }
 
         $allowedLevels = ['debug', 'info', __FUNCTION__];
-        if (! in_array(SuperlogSettings::getLogLevel(), $allowedLevels)) {
+        if (! SuperlogSettings::levelIsAllowed($allowedLevels)) {
             return;
         }
 
@@ -101,7 +125,6 @@ class Superlog implements LoggerContract
             message: $message,
             tags: $tags,
             level: __FUNCTION__,
-            channel: SuperlogSettings::getChannel(),
             application: SuperlogSettings::getApplication(),
             environment: SuperlogSettings::getEnvironment()
         );
@@ -119,7 +142,7 @@ class Superlog implements LoggerContract
         }
 
         $allowedLevels = ['debug', __FUNCTION__];
-        if (! in_array(SuperlogSettings::getLogLevel(), $allowedLevels)) {
+        if (! SuperlogSettings::levelIsAllowed($allowedLevels)) {
             return;
         }
 
@@ -127,7 +150,6 @@ class Superlog implements LoggerContract
             message: $message,
             tags: $tags,
             level: __FUNCTION__,
-            channel: SuperlogSettings::getChannel(),
             application: SuperlogSettings::getApplication(),
             environment: SuperlogSettings::getEnvironment()
         );
@@ -145,7 +167,7 @@ class Superlog implements LoggerContract
         }
 
         $allowedLevels = [__FUNCTION__];
-        if (! in_array(SuperlogSettings::getLogLevel(), $allowedLevels)) {
+        if (! SuperlogSettings::levelIsAllowed($allowedLevels)) {
             return;
         }
 
@@ -153,7 +175,6 @@ class Superlog implements LoggerContract
             message: $message,
             tags: $tags,
             level: __FUNCTION__,
-            channel: SuperlogSettings::getChannel(),
             application: SuperlogSettings::getApplication(),
             environment: SuperlogSettings::getEnvironment()
         );
@@ -171,11 +192,12 @@ class Superlog implements LoggerContract
         }
 
         match ($level) {
+            'alert' => self::alert($message, $tags),
+            'critical' => self::critical($message, $tags),
             'error' => self::error($message, $tags),
             'warning' => self::warning($message, $tags),
             'info' => self::info($message, $tags),
-            'debug' => self::debug($message, $tags),
-            default => self::critical($message, $tags),
+            default => self::debug($message, $tags),
         };
     }
 }

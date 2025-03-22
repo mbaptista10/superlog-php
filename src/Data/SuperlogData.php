@@ -13,19 +13,29 @@ final class SuperlogData
     /**
      * The log id
      */
-    public string $logId;
+    private readonly string $logId;
 
     /**
      * The timestamp log
      */
-    public string $timestamp;
+    private readonly string $timestamp;
 
     /**
      * The message to log
      *
      * @var array<mixed>
      */
-    public array $message;
+    private array $message;
+
+    /**
+     * The trace id
+     */
+    private ?string $traceId = null;
+
+    /**
+     * The span id
+     */
+    private ?string $spanId = null;
 
     /**
      * Create a new instance of the class
@@ -36,11 +46,10 @@ final class SuperlogData
         /** @var string|array<mixed> */
         string|array $message,
         /** @var array<mixed, string> */
-        public readonly array $tags,
-        public readonly string $level,
-        public readonly string $channel,
-        public readonly string $application,
-        public readonly string $environment,
+        private readonly array $tags,
+        private readonly string $level,
+        private readonly string $application,
+        private readonly string $environment,
     ) {
         $this->logId = Uuid::uuid4()->toString();
         $now = new DateTime('now', new DateTimeZone('UTC'));
@@ -53,13 +62,11 @@ final class SuperlogData
      *
      * @param  string|array<mixed>  $message
      * @param  array<mixed, string>  $tags
-     * @param  string|resource  $channel
      */
     public static function from(
         string|array $message,
         array $tags,
         string $level,
-        $channel,
         string $application,
         string $environment,
     ): self {
@@ -67,10 +74,27 @@ final class SuperlogData
             message: $message,
             tags: $tags,
             level: $level,
-            channel: "{$channel}",
             application: $application,
             environment: $environment,
         );
+    }
+
+    /**
+     * Get the log level of the message
+     */
+    public function level(): string
+    {
+        return $this->level;
+    }
+
+    /**
+     * Get the message of the log
+     *
+     * @return array<mixed>
+     */
+    public function message(): array
+    {
+        return $this->message;
     }
 
     /**
@@ -85,11 +109,13 @@ final class SuperlogData
 
         return json_encode(
             value: [
+                'version' => 'v2',
                 'timestamp' => $this->timestamp,
                 'level' => $this->level,
-                'channel' => $this->channel,
                 'application' => $this->application,
                 'environment' => $this->environment,
+                'trace_id' => $this->traceId,
+                'span_id' => $this->spanId,
                 'message' => json_encode(value: $this->message, depth: 1024),
                 'tags' => $tags,
             ],
@@ -127,5 +153,21 @@ final class SuperlogData
             ...$this->message,
             ...$message,
         ];
+    }
+
+    /**
+     * Add the trace id
+     */
+    public function addTraceId(string $traceId): void
+    {
+        $this->traceId = $traceId;
+    }
+
+    /**
+     * Add the span id
+     */
+    public function addSpanId(string $spanId): void
+    {
+        $this->spanId = $spanId;
     }
 }

@@ -26,6 +26,12 @@ jobs:
           extensions: dom, mbstring, zip
           coverage: pcov
 
+      - name: Install Datadog PHP Tracer
+        run: |
+          curl -LO "https://github.com/DataDog/dd-trace-php/releases/download/0.99.1/datadog-setup.php"
+          sudo php datadog-setup.php --php-bin=all --enable-appsec
+          sudo rm -rf datadog-setup.php
+
       - name: Get Composer cache directory
         id: composer-cache
         shell: bash
@@ -41,8 +47,11 @@ jobs:
       - name: Install Composer dependencies
         run: composer update --${{ matrix.dependency-version }} --no-interaction --prefer-dist
 
-      - name: Coding Style Checks
-        run: composer test:lint
+      - name: Rector check
+        run: composer run rector:check
 
-      - name: Type Checks
-        run: composer test:types
+      - name: Pint check
+        run: composer run pint:check
+
+      - name: PHPStan check
+        run: composer run phpstan:check
