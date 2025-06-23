@@ -4,6 +4,13 @@ Todas as alterações relevantes para este projeto serão documentadas neste arq
 
 O formato segue o padrão [Keep a Changelog](http://keepachangelog.com/) e este projeto adere a [Versionamento Semântico](http://semver.org/).
 
+## [1.7.0] - 2025-06-23
+### Adicionado
+- **Suporte ao PHP 8.2**:
+  - Adicionado suporte oficial para execução do projeto em ambientes com PHP 8.2. (#3805e4d)
+
+---
+
 ## [1.6.0] - 2025-03-22
 ### Adicionado
 - **Suporte a rastreamento e observadores**:
