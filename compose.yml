@@ -3,8 +3,6 @@ services:
         container_name: superlog-php
         build:
             target: dev
-            args:
-                BASE_IMAGE: serversideup/php:8.3-cli-alpine
         environment:
             DEPLOY_CMD: "tail -f /dev/null"
         volumes:
