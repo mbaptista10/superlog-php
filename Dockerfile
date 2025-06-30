@@ -1,5 +1,5 @@
-ARG BASE_IMAGE
-FROM ${BASE_IMAGE} as base
+ARG BASE_IMAGE="serversideup/php:8.3-cli-alpine"
+FROM ${BASE_IMAGE} AS base
 USER root
 
 RUN apk --no-cache add \
@@ -18,7 +18,7 @@ RUN cd /tmp/ \
     && curl -LO "https://github.com/DataDog/dd-trace-php/releases/download/0.99.1/datadog-setup.php" \
     && php datadog-setup.php --php-bin=all --enable-appsec
 
-FROM base as dev
+FROM base AS dev
 
 RUN install-php-extensions xdebug
 
